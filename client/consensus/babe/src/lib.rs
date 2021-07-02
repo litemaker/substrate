@@ -1566,7 +1566,6 @@ where
 				// imported.
 				let prune_and_import = || {
 					prune_finalized(self.client.clone(), &mut epoch_changes)?;
-
 					epoch_changes
 						.import(
 							descendent_query(&*self.client),
@@ -1575,8 +1574,12 @@ where
 							*block.header.parent_hash(),
 							next_epoch,
 						)
-						.map_err(|e| ConsensusError::ClientImport(format!("{:?}", e)))?;
-
+						.map_err(|e| {
+							ConsensusError::ClientImport(format!(
+								"Error importing epoch changes: {:?}",
+								e
+							))
+						})?;
 					Ok(())
 				};
 
@@ -1664,6 +1667,9 @@ where
 	Client: HeaderBackend<Block> + HeaderMetadata<Block, Error = sp_blockchain::Error>,
 {
 	let info = client.info();
+	if info.block_gap.is_none() {
+		epoch_changes.clear_gap();
+	}
 
 	let finalized_slot = {
 		let finalized_header = client
