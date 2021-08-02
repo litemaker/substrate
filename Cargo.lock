@@ -4901,7 +4901,7 @@ dependencies = [
  "parity-scale-codec",
  "paste 1.0.4",
  "pretty_assertions 0.7.2",
- "pwasm-utils",
+ "pwasm-utils 0.18.1 (git+https://github.com/paritytech/wasm-utils?branch=at-code-coverage)",
  "rand 0.8.4",
  "rand_pcg 0.3.0",
  "serde",
@@ -6462,6 +6462,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "pwasm-utils"
+version = "0.18.1"
+source = "git+https://github.com/paritytech/wasm-utils?branch=at-code-coverage#370dd3e369b17b418008bfc44dcb754fdaa610ca"
+dependencies = [
+ "byteorder",
+ "log",
+ "parity-wasm 0.42.2",
+]
+
+[[package]]
 name = "quick-error"
 version = "1.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -7573,7 +7583,7 @@ version = "0.10.0-dev"
 dependencies = [
  "derive_more",
  "parity-scale-codec",
- "pwasm-utils",
+ "pwasm-utils 0.18.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "sc-allocator",
  "sp-core",
  "sp-maybe-compressed-blob",
@@ -7607,7 +7617,7 @@ dependencies = [
  "log",
  "parity-scale-codec",
  "parity-wasm 0.42.2",
- "pwasm-utils",
+ "pwasm-utils 0.18.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "sc-allocator",
  "sc-executor-common",
  "sc-runtime-test",
