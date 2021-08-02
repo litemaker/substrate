@@ -129,15 +129,15 @@ where
 }
 
 /// Full client type.
-pub type TFullClient<TBl, TRtApi, TExecDisp> =
-	Client<TFullBackend<TBl>, TFullCallExecutor<TBl, TExecDisp>, TBl, TRtApi>;
+pub type TFullClient<TBl, TRtApi, TExec> =
+	Client<TFullBackend<TBl>, TFullCallExecutor<TBl, TExec>, TBl, TRtApi>;
 
 /// Full client backend type.
 pub type TFullBackend<TBl> = sc_client_db::Backend<TBl>;
 
 /// Full client call executor type.
-pub type TFullCallExecutor<TBl, TExecDisp> =
-	crate::client::LocalCallExecutor<TBl, sc_client_db::Backend<TBl>, NativeExecutor<TExecDisp>>;
+pub type TFullCallExecutor<TBl, TExec> =
+	crate::client::LocalCallExecutor<TBl, sc_client_db::Backend<TBl>, TExec>;
 
 /// Light client type.
 pub type TLightClient<TBl, TRtApi, TExecDisp> =
@@ -157,8 +157,8 @@ pub type TLightCallExecutor<TBl, TExecDisp> = sc_light::GenesisCallExecutor<
 	>,
 >;
 
-type TFullParts<TBl, TRtApi, TExecDisp> =
-	(TFullClient<TBl, TRtApi, TExecDisp>, Arc<TFullBackend<TBl>>, KeystoreContainer, TaskManager);
+type TFullParts<TBl, TRtApi, TExec> =
+	(TFullClient<TBl, TRtApi, TExec>, Arc<TFullBackend<TBl>>, KeystoreContainer, TaskManager);
 
 type TLightParts<TBl, TRtApi, TExecDisp> = (
 	Arc<TLightClient<TBl, TRtApi, TExecDisp>>,
@@ -265,7 +265,7 @@ impl KeystoreContainer {
 pub fn new_full_client<TBl, TRtApi, TExecDisp>(
 	config: &Configuration,
 	telemetry: Option<TelemetryHandle>,
-) -> Result<TFullClient<TBl, TRtApi, TExecDisp>, Error>
+) -> Result<TFullClient<TBl, TRtApi, NativeExecutor<TExecDisp>>, Error>
 where
 	TBl: BlockT,
 	TExecDisp: NativeExecutionDispatch + 'static,
@@ -278,10 +278,30 @@ where
 pub fn new_full_parts<TBl, TRtApi, TExecDisp>(
 	config: &Configuration,
 	telemetry: Option<TelemetryHandle>,
-) -> Result<TFullParts<TBl, TRtApi, TExecDisp>, Error>
+) -> Result<TFullParts<TBl, TRtApi, NativeExecutor<TExecDisp>>, Error>
 where
 	TBl: BlockT,
 	TExecDisp: NativeExecutionDispatch + 'static,
+	TBl::Hash: FromStr,
+{
+	let executor = NativeExecutor::<TExecDisp>::new(
+		config.wasm_method,
+		config.default_heap_pages,
+		config.max_runtime_instances,
+	);
+
+	new_full_parts_with_executor(config, telemetry, executor)
+}
+
+/// Create the initial parts of a full node.
+pub fn new_full_parts_with_executor<TBl, TRtApi, TE>(
+	config: &Configuration,
+	telemetry: Option<TelemetryHandle>,
+	executor: TE,
+) -> Result<TFullParts<TBl, TRtApi, TE>, Error>
+where
+	TBl: BlockT,
+	TE: CodeExecutor + RuntimeInfo,
 	TBl::Hash: FromStr,
 {
 	let keystore_container = KeystoreContainer::new(&config.keystore)?;
@@ -290,13 +310,6 @@ where
 		let registry = config.prometheus_config.as_ref().map(|cfg| &cfg.registry);
 		TaskManager::new(config.task_executor.clone(), registry)?
 	};
-
-	let executor = NativeExecutor::<TExecDisp>::new(
-		config.wasm_method,
-		config.default_heap_pages,
-		config.max_runtime_instances,
-	);
-
 	let chain_spec = &config.chain_spec;
 	let fork_blocks = get_extension::<ForkBlocks<TBl>>(chain_spec.extensions())
 		.cloned()

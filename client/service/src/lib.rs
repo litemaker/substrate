@@ -50,10 +50,11 @@ use sp_utils::mpsc::TracingUnboundedReceiver;
 pub use self::{
 	builder::{
 		build_network, build_offchain_workers, new_client, new_db_backend, new_full_client,
-		new_full_parts, new_light_parts, spawn_tasks, BuildNetworkParams, KeystoreContainer,
-		NetworkStarter, NoopRpcExtensionBuilder, RpcExtensionBuilder, SpawnTasksParams,
-		TFullBackend, TFullCallExecutor, TFullClient, TLightBackend, TLightBackendWithHash,
-		TLightCallExecutor, TLightClient, TLightClientWithBackend,
+		new_full_parts, new_full_parts_with_executor, new_light_parts, spawn_tasks,
+		BuildNetworkParams, KeystoreContainer, NetworkStarter, NoopRpcExtensionBuilder,
+		RpcExtensionBuilder, SpawnTasksParams, TFullBackend, TFullCallExecutor, TFullClient,
+		TLightBackend, TLightBackendWithHash, TLightCallExecutor, TLightClient,
+		TLightClientWithBackend,
 	},
 	client::{ClientConfig, LocalCallExecutor},
 	error::Error,

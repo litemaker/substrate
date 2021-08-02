@@ -108,6 +108,7 @@ pub struct WasmExecutor {
 	/// The path to a directory which the executor can leverage for a file cache, e.g. put there
 	/// compiled artifacts.
 	cache_path: Option<PathBuf>,
+	_native_version: NativeVersion,
 }
 
 impl WasmExecutor {
@@ -142,6 +143,7 @@ impl WasmExecutor {
 			cache: Arc::new(RuntimeCache::new(max_runtime_instances, cache_path.clone())),
 			max_runtime_instances,
 			cache_path,
+			_native_version: Default::default(),
 		}
 	}
 
@@ -266,6 +268,52 @@ impl sp_core::traits::ReadRuntimeVersion for WasmExecutor {
 			"Core_version",
 			&[],
 		)
+	}
+}
+
+impl CodeExecutor for WasmExecutor {
+	type Error = Error;
+
+	fn call<
+		R: Decode + Encode + PartialEq,
+		NC: FnOnce() -> result::Result<R, Box<dyn std::error::Error + Send + Sync>> + UnwindSafe,
+	>(
+		&self,
+		ext: &mut dyn Externalities,
+		runtime_code: &RuntimeCode,
+		method: &str,
+		data: &[u8],
+		_use_native: bool,
+		_native_call: Option<NC>,
+	) -> (Result<NativeOrEncoded<R>>, bool) {
+		let result = self.with_instance(
+			runtime_code,
+			ext,
+			false,
+			|module, instance, _onchain_version, mut ext| {
+				with_externalities_safe(&mut **ext, move || {
+					preregister_builtin_ext(module.clone());
+					instance.call_export(method, data).map(NativeOrEncoded::Encoded)
+				})
+			},
+		);
+		(result, false)
+	}
+}
+
+impl RuntimeInfo for WasmExecutor {
+	fn native_version(&self) -> &NativeVersion {
+		&self._native_version
+	}
+
+	fn runtime_version(
+		&self,
+		ext: &mut dyn Externalities,
+		runtime_code: &RuntimeCode,
+	) -> Result<RuntimeVersion> {
+		self.with_instance(runtime_code, ext, false, |_module, _instance, version, _ext| {
+			Ok(version.cloned().ok_or_else(|| Error::ApiError("Unknown version".into())))
+		})
 	}
 }
 
