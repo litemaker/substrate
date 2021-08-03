@@ -342,7 +342,8 @@ mod waiting {
 	}
 }
 
-/// Starts RPC servers that run in their own thread, and returns an opaque object that keeps them alive.
+/// Starts RPC servers that run in their own thread, and returns an opaque object that keeps them
+/// alive.
 #[cfg(not(target_os = "unknown"))]
 fn start_rpc_servers<
 	H: FnMut(
@@ -422,7 +423,8 @@ fn start_rpc_servers<
 	)))
 }
 
-/// Starts RPC servers that run in their own thread, and returns an opaque object that keeps them alive.
+/// Starts RPC servers that run in their own thread, and returns an opaque object that keeps them
+/// alive.
 #[cfg(target_os = "unknown")]
 fn start_rpc_servers<
 	H: FnMut(
@@ -533,7 +535,8 @@ where
 					},
 					Err(e) => {
 						debug!("Error converting pool error: {:?}", e);
-						// it is not bad at least, just some internal node logic error, so peer is innocent.
+						// it is not bad at least, just some internal node logic error, so peer is
+						// innocent.
 						TransactionImport::KnownGood
 					},
 				},
