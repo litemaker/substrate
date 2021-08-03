@@ -41,10 +41,10 @@
 //! ```
 //! # use frame_system::Config;
 //! frame_support::decl_module! {
-//!     pub struct Module<T: Config> for enum Call where origin: T::Origin {
-//!         #[weight = 1000]
-//!         fn dispatching(origin) { unimplemented!() }
-//!     }
+//! 	pub struct Module<T: Config> for enum Call where origin: T::Origin {
+//! 		#[weight = 1000]
+//! 		fn dispatching(origin) { unimplemented!() }
+//! 	}
 //! }
 //! # fn main() {}
 //! ```
@@ -55,10 +55,10 @@
 //! # use frame_system::Config;
 //! # use frame_support::weights::DispatchClass;
 //! frame_support::decl_module! {
-//!     pub struct Module<T: Config> for enum Call where origin: T::Origin {
-//!         #[weight = (1000, DispatchClass::Operational)]
-//!         fn dispatching(origin) { unimplemented!() }
-//!     }
+//! 	pub struct Module<T: Config> for enum Call where origin: T::Origin {
+//! 		#[weight = (1000, DispatchClass::Operational)]
+//! 		fn dispatching(origin) { unimplemented!() }
+//! 	}
 //! }
 //! # fn main() {}
 //! ```
@@ -69,10 +69,10 @@
 //! # use frame_system::Config;
 //! # use frame_support::weights::Pays;
 //! frame_support::decl_module! {
-//!     pub struct Module<T: Config> for enum Call where origin: T::Origin {
-//!         #[weight = (1000, Pays::No)]
-//!         fn dispatching(origin) { unimplemented!() }
-//!     }
+//! 	pub struct Module<T: Config> for enum Call where origin: T::Origin {
+//! 		#[weight = (1000, Pays::No)]
+//! 		fn dispatching(origin) { unimplemented!() }
+//! 	}
 //! }
 //! # fn main() {}
 //! ```
@@ -83,10 +83,10 @@
 //! # use frame_system::Config;
 //! # use frame_support::weights::{DispatchClass, Pays};
 //! frame_support::decl_module! {
-//!     pub struct Module<T: Config> for enum Call where origin: T::Origin {
-//!         #[weight = (1000, DispatchClass::Operational, Pays::No)]
-//!         fn dispatching(origin) { unimplemented!() }
-//!     }
+//! 	pub struct Module<T: Config> for enum Call where origin: T::Origin {
+//! 		#[weight = (1000, DispatchClass::Operational, Pays::No)]
+//! 		fn dispatching(origin) { unimplemented!() }
+//! 	}
 //! }
 //! # fn main() {}
 //! ```
@@ -104,8 +104,8 @@
 //! # use frame_system::Config;
 //! # use frame_support::weights::{DispatchClass, FunctionOf, Pays};
 //! frame_support::decl_module! {
-//!     pub struct Module<T: Config> for enum Call where origin: T::Origin {
-//!         #[weight = FunctionOf(
+//! 	pub struct Module<T: Config> for enum Call where origin: T::Origin {
+//! 		#[weight = FunctionOf(
 //! 			// weight, function.
 //! 			|args: (&u32, &u64)| *args.0 as u64 + args.1,
 //! 			// class, fixed.
@@ -113,8 +113,8 @@
 //! 			// pays fee, function.
 //! 			|args: (&u32, &u64)| if *args.0 > 1000 { Pays::Yes } else { Pays::No },
 //! 		)]
-//!         fn dispatching(origin, a: u32, b: u64) { unimplemented!() }
-//!     }
+//! 		fn dispatching(origin, a: u32, b: u64) { unimplemented!() }
+//! 	}
 //! }
 //! # fn main() {}
 //! ```

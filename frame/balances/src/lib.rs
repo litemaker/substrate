@@ -107,8 +107,11 @@
 //! # 	type Currency: Currency<Self::AccountId>;
 //! # }
 //!
-//! pub type BalanceOf<T> = <<T as Config>::Currency as Currency<<T as frame_system::Config>::AccountId>>::Balance;
-//! pub type NegativeImbalanceOf<T> = <<T as Config>::Currency as Currency<<T as frame_system::Config>::AccountId>>::NegativeImbalance;
+//! pub type BalanceOf<T> =
+//! 	<<T as Config>::Currency as Currency<<T as frame_system::Config>::AccountId>>::Balance;
+//! pub type NegativeImbalanceOf<T> = <<T as Config>::Currency as Currency<
+//! 	<T as frame_system::Config>::AccountId,
+//! >>::NegativeImbalance;
 //!
 //! # fn main() {}
 //! ```

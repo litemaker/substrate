@@ -52,12 +52,11 @@
 //! This is an example of a pallet that exposes a privileged function:
 //!
 //! ```
-//! 
 //! #[frame_support::pallet]
 //! pub mod logger {
+//! 	use super::*;
 //! 	use frame_support::pallet_prelude::*;
 //! 	use frame_system::pallet_prelude::*;
-//! 	use super::*;
 //!
 //! 	#[pallet::config]
 //! 	pub trait Config: frame_system::Config {}
@@ -68,13 +67,13 @@
 //! 	#[pallet::call]
 //! 	impl<T: Config> Pallet<T> {
 //! 		#[pallet::weight(0)]
-//!         pub fn privileged_function(origin: OriginFor<T>) -> DispatchResultWithPostInfo {
-//!             ensure_root(origin)?;
+//! 		pub fn privileged_function(origin: OriginFor<T>) -> DispatchResultWithPostInfo {
+//! 			ensure_root(origin)?;
 //!
-//!             // do something...
+//! 			// do something...
 //!
-//!             Ok(().into())
-//!         }
+//! 			Ok(().into())
+//! 		}
 //! 	}
 //! }
 //! # fn main() {}

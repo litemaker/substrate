@@ -128,21 +128,21 @@ pub const MAX_EXTRINSIC_DEPTH: u32 = 256;
 ///
 /// ```rust
 /// sp_api::decl_runtime_apis! {
-///     /// Declare the api trait.
-///     pub trait Balance {
-///         /// Get the balance.
-///         fn get_balance() -> u64;
-///         /// Set the balance.
-///         fn set_balance(val: u64);
-///     }
+/// 	/// Declare the api trait.
+/// 	pub trait Balance {
+/// 		/// Get the balance.
+/// 		fn get_balance() -> u64;
+/// 		/// Set the balance.
+/// 		fn set_balance(val: u64);
+/// 	}
 ///
-///     /// You can declare multiple api traits in one macro call.
-///     /// In one module you can call the macro at maximum one time.
-///     pub trait BlockBuilder {
-///         /// The macro adds an explicit `Block: BlockT` generic parameter for you.
-///         /// You can use this generic parameter as you would defined it manually.
-///         fn build_block() -> Block;
-///     }
+/// 	/// You can declare multiple api traits in one macro call.
+/// 	/// In one module you can call the macro at maximum one time.
+/// 	pub trait BlockBuilder {
+/// 		/// The macro adds an explicit `Block: BlockT` generic parameter for you.
+/// 		/// You can use this generic parameter as you would defined it manually.
+/// 		fn build_block() -> Block;
+/// 	}
 /// }
 ///
 /// # fn main() {}
@@ -162,21 +162,21 @@ pub const MAX_EXTRINSIC_DEPTH: u32 = 256;
 ///
 /// ```rust
 /// sp_api::decl_runtime_apis! {
-///     /// Declare the api trait.
-///     #[api_version(2)]
-///     pub trait Balance {
-///         /// Get the balance.
-///         fn get_balance() -> u64;
-///         /// Set balance.
-///         fn set_balance(val: u64);
-///         /// Set balance, old version.
-///         ///
-///         /// Is callable by `set_balance_before_version_2`.
-///         #[changed_in(2)]
-///         fn set_balance(val: u16);
-///         /// In version 2, we added this new function.
-///         fn increase_balance(val: u64);
-///     }
+/// 	/// Declare the api trait.
+/// 	#[api_version(2)]
+/// 	pub trait Balance {
+/// 		/// Get the balance.
+/// 		fn get_balance() -> u64;
+/// 		/// Set balance.
+/// 		fn set_balance(val: u64);
+/// 		/// Set balance, old version.
+/// 		///
+/// 		/// Is callable by `set_balance_before_version_2`.
+/// 		#[changed_in(2)]
+/// 		fn set_balance(val: u16);
+/// 		/// In version 2, we added this new function.
+/// 		fn increase_balance(val: u64);
+/// 	}
 /// }
 ///
 /// # fn main() {}
@@ -243,32 +243,32 @@ pub use sp_api_proc_macro::decl_runtime_apis;
 /// #       fn initialize_block(_header: &<Block as BlockT>::Header) {}
 /// #   }
 ///
-///     impl self::Balance<Block> for Runtime {
-///         fn get_balance() -> u64 {
-///             1
-///         }
-///         fn set_balance(_bal: u64) {
-///             // Store the balance
-///         }
-///     }
+/// 	impl self::Balance<Block> for Runtime {
+/// 		fn get_balance() -> u64 {
+/// 			1
+/// 		}
+/// 		fn set_balance(_bal: u64) {
+/// 			// Store the balance
+/// 		}
+/// 	}
 ///
-///     impl self::BlockBuilder<Block> for Runtime {
-///         fn build_block() -> Block {
-///              unimplemented!("Please implement me!")
-///         }
-///     }
+/// 	impl self::BlockBuilder<Block> for Runtime {
+/// 		fn build_block() -> Block {
+/// 			 unimplemented!("Please implement me!")
+/// 		}
+/// 	}
 /// }
 ///
 /// /// Runtime version. This needs to be declared for each runtime.
 /// pub const VERSION: sp_version::RuntimeVersion = sp_version::RuntimeVersion {
-///     spec_name: create_runtime_str!("node"),
-///     impl_name: create_runtime_str!("test-node"),
-///     authoring_version: 1,
-///     spec_version: 1,
-///     impl_version: 0,
-///     // Here we are exposing the runtime api versions.
-///     apis: RUNTIME_API_VERSIONS,
-///     transaction_version: 1,
+/// 	spec_name: create_runtime_str!("node"),
+/// 	impl_name: create_runtime_str!("test-node"),
+/// 	authoring_version: 1,
+/// 	spec_version: 1,
+/// 	impl_version: 0,
+/// 	// Here we are exposing the runtime api versions.
+/// 	apis: RUNTIME_API_VERSIONS,
+/// 	transaction_version: 1,
 /// };
 ///
 /// # fn main() {}
@@ -305,26 +305,26 @@ pub use sp_api_proc_macro::impl_runtime_apis;
 /// #     }
 /// # }
 /// struct MockApi {
-///     balance: u64,
+/// 	balance: u64,
 /// }
 ///
 /// /// All runtime api mock implementations need to be done in one call of the macro!
 /// sp_api::mock_impl_runtime_apis! {
-///     impl Balance<Block> for MockApi {
-///         /// Here we take the `&self` to access the instance.
-///         fn get_balance(&self) -> u64 {
-///             self.balance
-///         }
-///         fn set_balance(_bal: u64) {
-///             // Store the balance
-///         }
-///     }
+/// 	impl Balance<Block> for MockApi {
+/// 		/// Here we take the `&self` to access the instance.
+/// 		fn get_balance(&self) -> u64 {
+/// 			self.balance
+/// 		}
+/// 		fn set_balance(_bal: u64) {
+/// 			// Store the balance
+/// 		}
+/// 	}
 ///
-///     impl BlockBuilder<Block> for MockApi {
-///         fn build_block() -> Block {
-///              unimplemented!("Not Required in tests")
-///         }
-///     }
+/// 	impl BlockBuilder<Block> for MockApi {
+/// 		fn build_block() -> Block {
+/// 			 unimplemented!("Not Required in tests")
+/// 		}
+/// 	}
 /// }
 ///
 /// # fn main() {}
@@ -359,26 +359,26 @@ pub use sp_api_proc_macro::impl_runtime_apis;
 /// #     }
 /// # }
 /// struct MockApi {
-///     balance: u64,
+/// 	balance: u64,
 /// }
 ///
 /// sp_api::mock_impl_runtime_apis! {
-///     impl Balance<Block> for MockApi {
-///         #[advanced]
-///         fn get_balance(&self, at: &BlockId<Block>) -> Result<NativeOrEncoded<u64>, sp_api::ApiError> {
-///             println!("Being called at: {}", at);
+/// 	impl Balance<Block> for MockApi {
+/// 		#[advanced]
+/// 		fn get_balance(&self, at: &BlockId<Block>) -> Result<NativeOrEncoded<u64>, sp_api::ApiError> {
+/// 			println!("Being called at: {}", at);
 ///
-///             Ok(self.balance.into())
-///         }
-///         #[advanced]
-///         fn set_balance(at: &BlockId<Block>, val: u64) -> Result<NativeOrEncoded<()>, sp_api::ApiError> {
-///             if let BlockId::Number(1) = at {
-///                 println!("Being called to set balance to: {}", val);
-///             }
+/// 			Ok(self.balance.into())
+/// 		}
+/// 		#[advanced]
+/// 		fn set_balance(at: &BlockId<Block>, val: u64) -> Result<NativeOrEncoded<()>, sp_api::ApiError> {
+/// 			if let BlockId::Number(1) = at {
+/// 				println!("Being called to set balance to: {}", val);
+/// 			}
 ///
-///             Ok(().into())
-///         }
-///     }
+/// 			Ok(().into())
+/// 		}
+/// 	}
 /// }
 ///
 /// # fn main() {}

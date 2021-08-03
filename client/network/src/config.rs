@@ -267,9 +267,13 @@ impl fmt::Debug for ProtocolId {
 /// ```
 /// # use sc_network::{Multiaddr, PeerId, config::parse_str_addr};
 /// let (peer_id, addr) = parse_str_addr(
-/// 	"/ip4/198.51.100.19/tcp/30333/p2p/QmSk5HQbn6LhUwDiNMseVUjuRYhEtYj4aUZ6WfWoGURpdV"
-/// ).unwrap();
-/// assert_eq!(peer_id, "QmSk5HQbn6LhUwDiNMseVUjuRYhEtYj4aUZ6WfWoGURpdV".parse::<PeerId>().unwrap());
+/// 	"/ip4/198.51.100.19/tcp/30333/p2p/QmSk5HQbn6LhUwDiNMseVUjuRYhEtYj4aUZ6WfWoGURpdV",
+/// )
+/// .unwrap();
+/// assert_eq!(
+/// 	peer_id,
+/// 	"QmSk5HQbn6LhUwDiNMseVUjuRYhEtYj4aUZ6WfWoGURpdV".parse::<PeerId>().unwrap()
+/// );
 /// assert_eq!(addr, "/ip4/198.51.100.19/tcp/30333".parse::<Multiaddr>().unwrap());
 /// ```
 pub fn parse_str_addr(addr_str: &str) -> Result<(PeerId, Multiaddr), ParseErr> {
@@ -297,7 +301,9 @@ pub fn parse_addr(mut addr: Multiaddr) -> Result<(PeerId, Multiaddr), ParseErr> 
 /// ```
 /// # use sc_network::{Multiaddr, PeerId, config::MultiaddrWithPeerId};
 /// let addr: MultiaddrWithPeerId =
-/// 	"/ip4/198.51.100.19/tcp/30333/p2p/QmSk5HQbn6LhUwDiNMseVUjuRYhEtYj4aUZ6WfWoGURpdV".parse().unwrap();
+/// 	"/ip4/198.51.100.19/tcp/30333/p2p/QmSk5HQbn6LhUwDiNMseVUjuRYhEtYj4aUZ6WfWoGURpdV"
+/// 		.parse()
+/// 		.unwrap();
 /// assert_eq!(addr.peer_id.to_base58(), "QmSk5HQbn6LhUwDiNMseVUjuRYhEtYj4aUZ6WfWoGURpdV");
 /// assert_eq!(addr.multiaddr.to_string(), "/ip4/198.51.100.19/tcp/30333");
 /// ```

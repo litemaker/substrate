@@ -23,28 +23,33 @@
 //! NOTE: When using in actual runtime, make sure you don't produce unbounded parallelism.
 //! So this is bad example to use it:
 //! ```rust
-//!    fn my_parallel_computator(data: Vec<u8>) -> Vec<u8> {
-//!        unimplemented!()
-//!    }
-//!    fn test(dynamic_variable: i32) {
-//!        for _ in 0..dynamic_variable { sp_tasks::spawn(my_parallel_computator, vec![]); }
-//!    }
+//! fn my_parallel_computator(data: Vec<u8>) -> Vec<u8> {
+//! 	unimplemented!()
+//! }
+//! fn test(dynamic_variable: i32) {
+//! 	for _ in 0..dynamic_variable {
+//! 		sp_tasks::spawn(my_parallel_computator, vec![]);
+//! 	}
+//! }
 //! ```
 //!
 //! While this is a good example:
 //! ```rust
-//!    use codec::Encode;
-//!    static STATIC_VARIABLE: i32 = 4;
+//! use codec::Encode;
+//! static STATIC_VARIABLE: i32 = 4;
 //!
-//!    fn my_parallel_computator(data: Vec<u8>) -> Vec<u8> {
-//!        unimplemented!()
-//!    }
+//! fn my_parallel_computator(data: Vec<u8>) -> Vec<u8> {
+//! 	unimplemented!()
+//! }
 //!
-//!    fn test(computation_payload: Vec<u8>) {
-//!        let parallel_tasks = (0..STATIC_VARIABLE).map(|idx|
-//!            sp_tasks::spawn(my_parallel_computator, computation_payload.chunks(10).nth(idx as _).encode())
-//!        );
-//!    }
+//! fn test(computation_payload: Vec<u8>) {
+//! 	let parallel_tasks = (0..STATIC_VARIABLE).map(|idx| {
+//! 		sp_tasks::spawn(
+//! 			my_parallel_computator,
+//! 			computation_payload.chunks(10).nth(idx as _).encode(),
+//! 		)
+//! 	});
+//! }
 //! ```
 //!
 //! When allowing unbounded parallelism, malicious transactions can exploit it and partition

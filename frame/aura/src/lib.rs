@@ -90,16 +90,6 @@ pub mod pallet {
 				assert!(current_slot < new_slot, "Slot must increase");
 				CurrentSlot::<T>::put(new_slot);
 
-				if let Some(n_authorities) = <Authorities<T>>::decode_len() {
-					let authority_index = *new_slot % n_authorities as u64;
-					if T::DisabledValidators::is_disabled(authority_index as u32) {
-						panic!(
-							"Validator with index {:?} is disabled and should not be attempting to author blocks.",
-							authority_index,
-						);
-					}
-				}
-
 				// TODO [#3398] Generate offence report for all authorities that skipped their
 				// slots.
 

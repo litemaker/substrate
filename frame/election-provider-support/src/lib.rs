@@ -87,75 +87,71 @@
 //! type BlockNumber = u32;
 //!
 //! mod data_provider_mod {
-//!     use super::*;
+//! 	use super::*;
 //!
-//!     pub trait Config: Sized {
-//!         type ElectionProvider: ElectionProvider<
-//!             AccountId,
-//!             BlockNumber,
-//!             DataProvider = Module<Self>,
-//!         >;
-//!     }
+//! 	pub trait Config: Sized {
+//! 		type ElectionProvider: ElectionProvider<
+//! 			AccountId,
+//! 			BlockNumber,
+//! 			DataProvider = Module<Self>,
+//! 		>;
+//! 	}
 //!
-//!     pub struct Module<T: Config>(std::marker::PhantomData<T>);
+//! 	pub struct Module<T: Config>(std::marker::PhantomData<T>);
 //!
-//!     impl<T: Config> ElectionDataProvider<AccountId, BlockNumber> for Module<T> {
-//!         const MAXIMUM_VOTES_PER_VOTER: u32 = 1;
-//!         fn desired_targets() -> data_provider::Result<(u32, Weight)> {
-//!             Ok((1, 0))
-//!         }
-//!         fn voters(maybe_max_len: Option<usize>)
-//!         -> data_provider::Result<(Vec<(AccountId, VoteWeight, Vec<AccountId>)>, Weight)>
-//!         {
-//!             Ok((Default::default(), 0))
-//!         }
-//!         fn targets(maybe_max_len: Option<usize>) -> data_provider::Result<(Vec<AccountId>, Weight)> {
-//!             Ok((vec![10, 20, 30], 0))
-//!         }
-//!         fn next_election_prediction(now: BlockNumber) -> BlockNumber {
-//!             0
-//!         }
-//!     }
+//! 	impl<T: Config> ElectionDataProvider<AccountId, BlockNumber> for Module<T> {
+//! 		const MAXIMUM_VOTES_PER_VOTER: u32 = 1;
+//! 		fn desired_targets() -> data_provider::Result<(u32, Weight)> {
+//! 			Ok((1, 0))
+//! 		}
+//! 		fn voters(
+//! 			maybe_max_len: Option<usize>,
+//! 		) -> data_provider::Result<(Vec<(AccountId, VoteWeight, Vec<AccountId>)>, Weight)> {
+//! 			Ok((Default::default(), 0))
+//! 		}
+//! 		fn targets(
+//! 			maybe_max_len: Option<usize>,
+//! 		) -> data_provider::Result<(Vec<AccountId>, Weight)> {
+//! 			Ok((vec![10, 20, 30], 0))
+//! 		}
+//! 		fn next_election_prediction(now: BlockNumber) -> BlockNumber {
+//! 			0
+//! 		}
+//! 	}
 //! }
 //!
-//!
 //! mod generic_election_provider {
-//!     use super::*;
+//! 	use super::*;
 //!
-//!     pub struct GenericElectionProvider<T: Config>(std::marker::PhantomData<T>);
+//! 	pub struct GenericElectionProvider<T: Config>(std::marker::PhantomData<T>);
 //!
-//!     pub trait Config {
-//!         type DataProvider: ElectionDataProvider<AccountId, BlockNumber>;
-//!     }
+//! 	pub trait Config {
+//! 		type DataProvider: ElectionDataProvider<AccountId, BlockNumber>;
+//! 	}
 //!
-//!     impl<T: Config> ElectionProvider<AccountId, BlockNumber> for GenericElectionProvider<T> {
-//!         type Error = &'static str;
-//!         type DataProvider = T::DataProvider;
+//! 	impl<T: Config> ElectionProvider<AccountId, BlockNumber> for GenericElectionProvider<T> {
+//! 		type Error = &'static str;
+//! 		type DataProvider = T::DataProvider;
 //!
-//!         fn elect() -> Result<(Supports<AccountId>, Weight), Self::Error> {
-//!             Self::DataProvider::targets(None)
-//!                 .map_err(|_| "failed to elect")
-//!                 .map(|(t, weight)| {
-//! 						(vec![(t[0], Support::default())], weight)
-//! 				})
-//!         }
-//!     }
+//! 		fn elect() -> Result<(Supports<AccountId>, Weight), Self::Error> {
+//! 			Self::DataProvider::targets(None)
+//! 				.map_err(|_| "failed to elect")
+//! 				.map(|(t, weight)| (vec![(t[0], Support::default())], weight))
+//! 		}
+//! 	}
 //! }
 //!
 //! mod runtime {
-//!     use super::generic_election_provider;
-//!     use super::data_provider_mod;
-//!     use super::AccountId;
+//! 	use super::{data_provider_mod, generic_election_provider, AccountId};
 //!
-//!     struct Runtime;
-//!     impl generic_election_provider::Config for Runtime {
-//!         type DataProvider = data_provider_mod::Module<Runtime>;
-//!     }
+//! 	struct Runtime;
+//! 	impl generic_election_provider::Config for Runtime {
+//! 		type DataProvider = data_provider_mod::Module<Runtime>;
+//! 	}
 //!
-//!     impl data_provider_mod::Config for Runtime {
-//!         type ElectionProvider = generic_election_provider::GenericElectionProvider<Runtime>;
-//!     }
-//!
+//! 	impl data_provider_mod::Config for Runtime {
+//! 		type ElectionProvider = generic_election_provider::GenericElectionProvider<Runtime>;
+//! 	}
 //! }
 //!
 //! # fn main() {}

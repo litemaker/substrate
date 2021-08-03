@@ -46,7 +46,7 @@
 //!
 //! ```
 //! use codec::Decode;
-//! use sp_inherents::{InherentIdentifier, InherentData};
+//! use sp_inherents::{InherentData, InherentIdentifier};
 //!
 //! // This needs to be unique for the runtime.
 //! const INHERENT_IDENTIFIER: InherentIdentifier = *b"testinh0";
@@ -81,14 +81,12 @@
 //! 	) -> Option<Result<(), sp_inherents::Error>> {
 //! 		// Check if this error belongs to us.
 //! 		if *identifier != INHERENT_IDENTIFIER {
-//! 			return None;
+//! 			return None
 //! 		}
 //!
 //! 		// For demonstration purposes we are using a `String` as error type. In real
 //! 		// implementations it is advised to not use `String`.
-//! 		Some(Err(
-//! 			sp_inherents::Error::Application(Box::from(String::decode(&mut error).ok()?))
-//! 		))
+//! 		Some(Err(sp_inherents::Error::Application(Box::from(String::decode(&mut error).ok()?))))
 //! 	}
 //! }
 //! ```

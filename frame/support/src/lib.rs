@@ -282,7 +282,9 @@ macro_rules! generate_storage_alias {
 /// # use frame_support::traits::Get;
 /// # use frame_support::parameter_types;
 /// // This function cannot be used in a const context.
-/// fn non_const_expression() -> u64 { 99 }
+/// fn non_const_expression() -> u64 {
+/// 	99
+/// }
 ///
 /// const FIXED_VALUE: u64 = 10;
 /// parameter_types! {
@@ -294,18 +296,18 @@ macro_rules! generate_storage_alias {
 /// }
 ///
 /// trait Config {
-///    type Parameter: Get<u64>;
-///    type OtherParameter: Get<u64>;
-///    type StorageParameter: Get<u64>;
-///    type StaticParameter: Get<u32>;
+/// 	type Parameter: Get<u64>;
+/// 	type OtherParameter: Get<u64>;
+/// 	type StorageParameter: Get<u64>;
+/// 	type StaticParameter: Get<u32>;
 /// }
 ///
 /// struct Runtime;
 /// impl Config for Runtime {
-///    type Parameter = Argument;
-///    type OtherParameter = OtherArgument;
-///    type StorageParameter = StorageArgument;
-///    type StaticParameter = StaticArgument;
+/// 	type Parameter = Argument;
+/// 	type OtherParameter = OtherArgument;
+/// 	type StorageParameter = StorageArgument;
+/// 	type StaticParameter = StaticArgument;
 /// }
 ///
 /// // In testing, `StaticArgument` can be altered later: `StaticArgument::set(8)`.
@@ -317,7 +319,9 @@ macro_rules! generate_storage_alias {
 /// # use frame_support::traits::Get;
 /// # use frame_support::parameter_types;
 /// // This function cannot be used in a const context.
-/// fn non_const_expression() -> u64 { 99 }
+/// fn non_const_expression() -> u64 {
+/// 	99
+/// }
 ///
 /// parameter_types! {
 ///    pub const Argument: u64 = non_const_expression();
@@ -551,14 +555,14 @@ pub use frame_support_procedural::__generate_dummy_part_checker;
 /// ```
 /// # use frame_support::CloneNoBound;
 /// trait Config {
-/// 		type C: Clone;
+/// 	type C: Clone;
 /// }
 ///
 /// // Foo implements [`Clone`] because `C` bounds [`Clone`].
 /// // Otherwise compilation will fail with an output telling `c` doesn't implement [`Clone`].
 /// #[derive(CloneNoBound)]
 /// struct Foo<T: Config> {
-/// 		c: T::C,
+/// 	c: T::C,
 /// }
 /// ```
 pub use frame_support_procedural::CloneNoBound;
@@ -569,14 +573,14 @@ pub use frame_support_procedural::CloneNoBound;
 /// ```
 /// # use frame_support::{EqNoBound, PartialEqNoBound};
 /// trait Config {
-/// 		type C: Eq;
+/// 	type C: Eq;
 /// }
 ///
 /// // Foo implements [`Eq`] because `C` bounds [`Eq`].
 /// // Otherwise compilation will fail with an output telling `c` doesn't implement [`Eq`].
 /// #[derive(PartialEqNoBound, EqNoBound)]
 /// struct Foo<T: Config> {
-/// 		c: T::C,
+/// 	c: T::C,
 /// }
 /// ```
 pub use frame_support_procedural::EqNoBound;
@@ -587,14 +591,14 @@ pub use frame_support_procedural::EqNoBound;
 /// ```
 /// # use frame_support::PartialEqNoBound;
 /// trait Config {
-/// 		type C: PartialEq;
+/// 	type C: PartialEq;
 /// }
 ///
 /// // Foo implements [`PartialEq`] because `C` bounds [`PartialEq`].
 /// // Otherwise compilation will fail with an output telling `c` doesn't implement [`PartialEq`].
 /// #[derive(PartialEqNoBound)]
 /// struct Foo<T: Config> {
-/// 		c: T::C,
+/// 	c: T::C,
 /// }
 /// ```
 pub use frame_support_procedural::PartialEqNoBound;
@@ -606,14 +610,14 @@ pub use frame_support_procedural::PartialEqNoBound;
 /// # use frame_support::DebugNoBound;
 /// # use core::fmt::Debug;
 /// trait Config {
-/// 		type C: Debug;
+/// 	type C: Debug;
 /// }
 ///
 /// // Foo implements [`Debug`] because `C` bounds [`Debug`].
 /// // Otherwise compilation will fail with an output telling `c` doesn't implement [`Debug`].
 /// #[derive(DebugNoBound)]
 /// struct Foo<T: Config> {
-/// 		c: T::C,
+/// 	c: T::C,
 /// }
 /// ```
 pub use frame_support_procedural::DebugNoBound;
@@ -625,14 +629,14 @@ pub use frame_support_procedural::DebugNoBound;
 /// # use frame_support::DefaultNoBound;
 /// # use core::default::Default;
 /// trait Config {
-/// 		type C: Default;
+/// 	type C: Default;
 /// }
 ///
 /// // Foo implements [`Default`] because `C` bounds [`Default`].
 /// // Otherwise compilation will fail with an output telling `c` doesn't implement [`Default`].
 /// #[derive(DefaultNoBound)]
 /// struct Foo<T: Config> {
-/// 		c: T::C,
+/// 	c: T::C,
 /// }
 /// ```
 pub use frame_support_procedural::DefaultNoBound;
@@ -1911,7 +1915,7 @@ pub mod pallet_prelude {
 /// // NOTE: The name of the pallet is provided by `construct_runtime` and is used as
 /// // the unique identifier for the pallet's storage. It is not defined in the pallet itself.
 /// pub mod pallet {
-/// 	use frame_support::pallet_prelude::*; // Import various types used in the pallet definition
+/// 	use frame_support::pallet_prelude::*; /* Import various types used in the pallet definition */
 /// 	use frame_system::pallet_prelude::*; // Import some system helper types.
 ///
 /// 	type BalanceOf<T> = <T as Config>::Balance;
@@ -1931,7 +1935,9 @@ pub mod pallet_prelude {
 /// 	#[pallet::extra_constants]
 /// 	impl<T: Config> Pallet<T> {
 /// 		/// Some description
-/// 		fn exra_constant_name() -> u128 { 4u128 }
+/// 		fn exra_constant_name() -> u128 {
+/// 			4u128
+/// 		}
 /// 	}
 ///
 /// 	// Define the pallet struct placeholder, various pallet function are implemented on it.
@@ -2002,7 +2008,9 @@ pub mod pallet_prelude {
 ///
 /// 	// Define a struct which implements `frame_support::traits::Get<T::Balance>` (optional).
 /// 	#[pallet::type_value]
-/// 	pub(super) fn MyDefault<T: Config>() -> T::Balance { 3.into() }
+/// 	pub(super) fn MyDefault<T: Config>() -> T::Balance {
+/// 		3.into()
+/// 	}
 ///
 /// 	// Declare a storage item. Any amount of storage items can be declared (optional).
 /// 	//
@@ -2057,7 +2065,7 @@ pub mod pallet_prelude {
 /// 		type Call = Call<T>;
 /// 		fn validate_unsigned(
 /// 			source: TransactionSource,
-/// 			call: &Self::Call
+/// 			call: &Self::Call,
 /// 		) -> TransactionValidity {
 /// 			Err(TransactionValidityError::Invalid(InvalidTransaction::Call))
 /// 		}
@@ -2084,8 +2092,7 @@ pub mod pallet_prelude {
 ///
 /// 	#[derive(codec::Encode, sp_runtime::RuntimeDebug)]
 /// 	#[cfg_attr(feature = "std", derive(codec::Decode))]
-/// 	pub enum InherentError {
-/// 	}
+/// 	pub enum InherentError {}
 ///
 /// 	impl sp_inherents::IsFatalError for InherentError {
 /// 		fn is_fatal_error(&self) -> bool {
@@ -2120,7 +2127,9 @@ pub mod pallet_prelude {
 /// 	#[pallet::extra_constants]
 /// 	impl<T: Config<I>, I: 'static> Pallet<T, I> {
 /// 		/// Some description
-/// 		fn exra_constant_name() -> u128 { 4u128 }
+/// 		fn exra_constant_name() -> u128 {
+/// 			4u128
+/// 		}
 /// 	}
 ///
 /// 	#[pallet::pallet]
@@ -2128,14 +2137,16 @@ pub mod pallet_prelude {
 /// 	pub struct Pallet<T, I = ()>(PhantomData<(T, I)>);
 ///
 /// 	#[pallet::hooks]
-/// 	impl<T: Config<I>, I: 'static> Hooks<BlockNumberFor<T>> for Pallet<T, I> {
-/// 	}
+/// 	impl<T: Config<I>, I: 'static> Hooks<BlockNumberFor<T>> for Pallet<T, I> {}
 ///
 /// 	#[pallet::call]
 /// 	impl<T: Config<I>, I: 'static> Pallet<T, I> {
 /// 		/// Doc comment put in metadata
 /// 		#[pallet::weight(0)]
-/// 		pub fn toto(origin: OriginFor<T>, #[pallet::compact] _foo: u32) -> DispatchResultWithPostInfo {
+/// 		pub fn toto(
+/// 			origin: OriginFor<T>,
+/// 			#[pallet::compact] _foo: u32,
+/// 		) -> DispatchResultWithPostInfo {
 /// 			let _ = origin;
 /// 			unimplemented!();
 /// 		}
@@ -2159,7 +2170,9 @@ pub mod pallet_prelude {
 /// 	}
 ///
 /// 	#[pallet::type_value]
-/// 	pub(super) fn MyDefault<T: Config<I>, I: 'static>() -> T::Balance { 3.into() }
+/// 	pub(super) fn MyDefault<T: Config<I>, I: 'static>() -> T::Balance {
+/// 		3.into()
+/// 	}
 ///
 /// 	#[pallet::storage]
 /// 	pub(super) type MyStorageValue<T: Config<I>, I: 'static = ()> =
@@ -2189,7 +2202,7 @@ pub mod pallet_prelude {
 /// 		type Call = Call<T, I>;
 /// 		fn validate_unsigned(
 /// 			source: TransactionSource,
-/// 			call: &Self::Call
+/// 			call: &Self::Call,
 /// 		) -> TransactionValidity {
 /// 			Err(TransactionValidityError::Invalid(InvalidTransaction::Call))
 /// 		}
@@ -2215,8 +2228,7 @@ pub mod pallet_prelude {
 ///
 /// 	#[derive(codec::Encode, sp_runtime::RuntimeDebug)]
 /// 	#[cfg_attr(feature = "std", derive(codec::Decode))]
-/// 	pub enum InherentError {
-/// 	}
+/// 	pub enum InherentError {}
 ///
 /// 	impl sp_inherents::IsFatalError for InherentError {
 /// 		fn is_fatal_error(&self) -> bool {

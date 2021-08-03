@@ -30,12 +30,12 @@
 //! macro exposed by this crate.
 //!
 //! ```rust
+//! use sc_chain_spec::{ChainSpecExtension, GenericChainSpec};
 //! use std::collections::HashMap;
-//! use sc_chain_spec::{GenericChainSpec, ChainSpecExtension};
 //!
 //! #[derive(Clone, Debug, serde::Serialize, serde::Deserialize, ChainSpecExtension)]
 //! pub struct MyExtension {
-//! 		pub known_blocks: HashMap<u64, String>,
+//! 	pub known_blocks: HashMap<u64, String>,
 //! }
 //!
 //! pub type MyChainSpec<G> = GenericChainSpec<G, MyExtension>;
@@ -49,23 +49,25 @@
 //! block number.
 //!
 //! ```rust
-//! use sc_chain_spec::{Forks, ChainSpecGroup, ChainSpecExtension, GenericChainSpec};
+//! use sc_chain_spec::{ChainSpecExtension, ChainSpecGroup, Forks, GenericChainSpec};
 //!
 //! #[derive(Clone, Debug, serde::Serialize, serde::Deserialize, ChainSpecGroup)]
 //! pub struct ClientParams {
-//! 		max_block_size: usize,
-//! 		max_extrinsic_size: usize,
+//! 	max_block_size: usize,
+//! 	max_extrinsic_size: usize,
 //! }
 //!
 //! #[derive(Clone, Debug, serde::Serialize, serde::Deserialize, ChainSpecGroup)]
 //! pub struct PoolParams {
-//! 		max_transaction_size: usize,
+//! 	max_transaction_size: usize,
 //! }
 //!
-//! #[derive(Clone, Debug, serde::Serialize, serde::Deserialize, ChainSpecGroup, ChainSpecExtension)]
+//! #[derive(
+//! 	Clone, Debug, serde::Serialize, serde::Deserialize, ChainSpecGroup, ChainSpecExtension,
+//! )]
 //! pub struct Extension {
-//! 		pub client: ClientParams,
-//! 		pub pool: PoolParams,
+//! 	pub client: ClientParams,
+//! 	pub pool: PoolParams,
 //! }
 //!
 //! pub type BlockNumber = u64;
@@ -83,25 +85,25 @@
 //!
 //!
 //! ```rust
-//! use serde::{Serialize, Deserialize};
-//! use sc_chain_spec::{Forks, GenericChainSpec, ChainSpecGroup, ChainSpecExtension};
+//! use sc_chain_spec::{ChainSpecExtension, ChainSpecGroup, Forks, GenericChainSpec};
+//! use serde::{Deserialize, Serialize};
 //!
 //! #[derive(Clone, Debug, Serialize, Deserialize, ChainSpecGroup)]
 //! pub struct ClientParams {
-//! 		max_block_size: usize,
-//! 		max_extrinsic_size: usize,
+//! 	max_block_size: usize,
+//! 	max_extrinsic_size: usize,
 //! }
 //!
 //! #[derive(Clone, Debug, Serialize, Deserialize, ChainSpecGroup)]
 //! pub struct PoolParams {
-//! 		max_transaction_size: usize,
+//! 	max_transaction_size: usize,
 //! }
 //!
 //! #[derive(Clone, Debug, Serialize, Deserialize, ChainSpecExtension)]
 //! pub struct Extension {
-//! 		pub client: ClientParams,
-//! 		#[forks]
-//! 		pub pool: Forks<u64, PoolParams>,
+//! 	pub client: ClientParams,
+//! 	#[forks]
+//! 	pub pool: Forks<u64, PoolParams>,
 //! }
 //!
 //! pub type MyChainSpec<G> = GenericChainSpec<G, Extension>;

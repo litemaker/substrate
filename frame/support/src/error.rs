@@ -38,13 +38,13 @@ pub use sp_runtime::traits::{BadOrigin, LookupError};
 /// # use frame_support::{decl_error, decl_module};
 /// #
 /// decl_error! {
-///     /// Errors that can occur in my module.
-///     pub enum MyError for Module<T: Config> {
-///         /// Hey this is an error message that indicates bla.
-///         MyCoolErrorMessage,
-///         /// You are just not cool enough for my module!
-///         YouAreNotCoolEnough,
-///     }
+/// 	/// Errors that can occur in my module.
+/// 	pub enum MyError for Module<T: Config> {
+/// 		/// Hey this is an error message that indicates bla.
+/// 		MyCoolErrorMessage,
+/// 		/// You are just not cool enough for my module!
+/// 		YouAreNotCoolEnough,
+/// 	}
 /// }
 ///
 /// # use frame_system::Config;
@@ -53,14 +53,14 @@ pub use sp_runtime::traits::{BadOrigin, LookupError};
 /// // exported in the metadata.
 ///
 /// decl_module! {
-///     pub struct Module<T: Config> for enum Call where origin: T::Origin {
-///         type Error = MyError<T>;
+/// 	pub struct Module<T: Config> for enum Call where origin: T::Origin {
+/// 		type Error = MyError<T>;
 ///
-///         #[weight = 0]
-///         fn do_something(origin) -> frame_support::dispatch::DispatchResult {
-///             Err(MyError::<T>::YouAreNotCoolEnough.into())
-///         }
-///     }
+/// 		#[weight = 0]
+/// 		fn do_something(origin) -> frame_support::dispatch::DispatchResult {
+/// 			Err(MyError::<T>::YouAreNotCoolEnough.into())
+/// 		}
+/// 	}
 /// }
 ///
 /// # fn main() {}

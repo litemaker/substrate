@@ -140,8 +140,8 @@ struct SharedDataInner<T> {
 ///
 /// let shared_data2 = shared_data.clone();
 /// let join_handle1 = std::thread::spawn(move || {
-///     // This will need to wait for the outer lock to be released before it can access the data.
-///     shared_data2.shared_data().push_str("1");
+/// 	// This will need to wait for the outer lock to be released before it can access the data.
+/// 	shared_data2.shared_data().push_str("1");
 /// });
 ///
 /// assert_eq!(*lock, "hello world");
@@ -152,7 +152,7 @@ struct SharedDataInner<T> {
 ///
 /// let shared_data2 = shared_data.clone();
 /// let join_handle2 = std::thread::spawn(move || {
-///     shared_data2.shared_data().push_str("2");
+/// 	shared_data2.shared_data().push_str("2");
 /// });
 ///
 /// // We still have the lock and can upgrade it to access the data.

@@ -29,10 +29,10 @@ pub use frame_metadata::{DecodeDifferent, EventMetadata, FnEncode, OuterEventMet
 ///
 /// ```rust
 /// frame_support::decl_event!(
-///    pub enum Event {
-///       Success,
-///       Failure(String),
-///    }
+/// 	pub enum Event {
+/// 		Success,
+/// 		Failure(String),
+/// 	}
 /// );
 ///
 /// # fn main() {}

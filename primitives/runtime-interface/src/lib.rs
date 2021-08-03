@@ -64,9 +64,9 @@
 //! ```
 //! #[sp_runtime_interface::runtime_interface]
 //! trait RuntimeInterface {
-//!     fn some_function(value: &[u8]) -> bool {
-//!         value.iter().all(|v| *v > 125)
-//!     }
+//! 	fn some_function(value: &[u8]) -> bool {
+//! 		value.iter().all(|v| *v > 125)
+//! 	}
 //! }
 //! ```
 //!
@@ -133,35 +133,35 @@ pub use sp_std;
 ///
 /// #[runtime_interface]
 /// trait Interface {
-///     /// A function that can be called from native/wasm.
-///     ///
-///     /// The implementation given to this function is only compiled on native.
-///     fn call(data: &[u8]) -> Vec<u8> {
-///         // Here you could call some rather complex code that only compiles on native or
-///         // is way faster in native than executing it in wasm.
-///         Vec::new()
-///     }
-///     /// Call function, but different version.
-///     ///
-///     /// For new runtimes, only function with latest version is reachable.
-///     /// But old version (above) is still accessible for old runtimes.
-///     /// Default version is 1.
-///     #[version(2)]
-///     fn call(data: &[u8]) -> Vec<u8> {
-///         // Here you could call some rather complex code that only compiles on native or
-///         // is way faster in native than executing it in wasm.
-///         [17].to_vec()
-///     }
+/// 	/// A function that can be called from native/wasm.
+/// 	///
+/// 	/// The implementation given to this function is only compiled on native.
+/// 	fn call(data: &[u8]) -> Vec<u8> {
+/// 		// Here you could call some rather complex code that only compiles on native or
+/// 		// is way faster in native than executing it in wasm.
+/// 		Vec::new()
+/// 	}
+/// 	/// Call function, but different version.
+/// 	///
+/// 	/// For new runtimes, only function with latest version is reachable.
+/// 	/// But old version (above) is still accessible for old runtimes.
+/// 	/// Default version is 1.
+/// 	#[version(2)]
+/// 	fn call(data: &[u8]) -> Vec<u8> {
+/// 		// Here you could call some rather complex code that only compiles on native or
+/// 		// is way faster in native than executing it in wasm.
+/// 		[17].to_vec()
+/// 	}
 ///
-///     /// A function can take a `&self` or `&mut self` argument to get access to the
-///     /// `Externalities`. (The generated method does not require
-///     /// this argument, so the function can be called just with the `optional` argument)
-///     fn set_or_clear(&mut self, optional: Option<Vec<u8>>) {
-///         match optional {
-///             Some(value) => self.set_storage([1, 2, 3, 4].to_vec(), value),
-///             None => self.clear_storage(&[1, 2, 3, 4]),
-///         }
-///     }
+/// 	/// A function can take a `&self` or `&mut self` argument to get access to the
+/// 	/// `Externalities`. (The generated method does not require
+/// 	/// this argument, so the function can be called just with the `optional` argument)
+/// 	fn set_or_clear(&mut self, optional: Option<Vec<u8>>) {
+/// 		match optional {
+/// 			Some(value) => self.set_storage([1, 2, 3, 4].to_vec(), value),
+/// 			None => self.clear_storage(&[1, 2, 3, 4]),
+/// 		}
+/// 	}
 /// }
 /// ```
 ///
@@ -174,52 +174,58 @@ pub use sp_std;
 /// // Be aware that this module is not `public`, the visibility of the module is determined based
 /// // on the visibility of the trait declaration.
 /// mod interface {
-///     trait Interface {
-///         fn call_version_1(data: &[u8]) -> Vec<u8>;
-///         fn call_version_2(data: &[u8]) -> Vec<u8>;
-///         fn set_or_clear_version_1(&mut self, optional: Option<Vec<u8>>);
-///     }
+/// 	trait Interface {
+/// 		fn call_version_1(data: &[u8]) -> Vec<u8>;
+/// 		fn call_version_2(data: &[u8]) -> Vec<u8>;
+/// 		fn set_or_clear_version_1(&mut self, optional: Option<Vec<u8>>);
+/// 	}
 ///
-///     impl Interface for &mut dyn sp_externalities::Externalities {
-///         fn call_version_1(data: &[u8]) -> Vec<u8> { Vec::new() }
-///         fn call_version_2(data: &[u8]) -> Vec<u8> { [17].to_vec() }
-///         fn set_or_clear_version_1(&mut self, optional: Option<Vec<u8>>) {
-///             match optional {
-///                 Some(value) => self.set_storage([1, 2, 3, 4].to_vec(), value),
-///                 None => self.clear_storage(&[1, 2, 3, 4]),
-///             }
-///         }
-///     }
+/// 	impl Interface for &mut dyn sp_externalities::Externalities {
+/// 		fn call_version_1(data: &[u8]) -> Vec<u8> {
+/// 			Vec::new()
+/// 		}
+/// 		fn call_version_2(data: &[u8]) -> Vec<u8> {
+/// 			[17].to_vec()
+/// 		}
+/// 		fn set_or_clear_version_1(&mut self, optional: Option<Vec<u8>>) {
+/// 			match optional {
+/// 				Some(value) => self.set_storage([1, 2, 3, 4].to_vec(), value),
+/// 				None => self.clear_storage(&[1, 2, 3, 4]),
+/// 			}
+/// 		}
+/// 	}
 ///
-///     pub fn call(data: &[u8]) -> Vec<u8> {
-///         // only latest version is exposed
-///         call_version_2(data)
-///     }
+/// 	pub fn call(data: &[u8]) -> Vec<u8> {
+/// 		// only latest version is exposed
+/// 		call_version_2(data)
+/// 	}
 ///
-///     fn call_version_1(data: &[u8]) -> Vec<u8> {
-///         <&mut dyn sp_externalities::Externalities as Interface>::call_version_1(data)
-///     }
+/// 	fn call_version_1(data: &[u8]) -> Vec<u8> {
+/// 		<&mut dyn sp_externalities::Externalities as Interface>::call_version_1(data)
+/// 	}
 ///
-///     fn call_version_2(data: &[u8]) -> Vec<u8> {
-///         <&mut dyn sp_externalities::Externalities as Interface>::call_version_2(data)
-///     }
+/// 	fn call_version_2(data: &[u8]) -> Vec<u8> {
+/// 		<&mut dyn sp_externalities::Externalities as Interface>::call_version_2(data)
+/// 	}
 ///
-///     pub fn set_or_clear(optional: Option<Vec<u8>>) {
-///         set_or_clear_version_1(optional)
-///     }
+/// 	pub fn set_or_clear(optional: Option<Vec<u8>>) {
+/// 		set_or_clear_version_1(optional)
+/// 	}
 ///
-///     fn set_or_clear_version_1(optional: Option<Vec<u8>>) {
-///         sp_externalities::with_externalities(|mut ext| Interface::set_or_clear_version_1(&mut ext, optional))
-///             .expect("`set_or_clear` called outside of an Externalities-provided environment.")
-///     }
+/// 	fn set_or_clear_version_1(optional: Option<Vec<u8>>) {
+/// 		sp_externalities::with_externalities(|mut ext| {
+/// 			Interface::set_or_clear_version_1(&mut ext, optional)
+/// 		})
+/// 		.expect("`set_or_clear` called outside of an Externalities-provided environment.")
+/// 	}
 ///
-///     /// This type implements the `HostFunctions` trait (from `sp-wasm-interface`) and
-///     /// provides the host implementation for the wasm side. The host implementation converts the
-///     /// arguments from wasm to native and calls the corresponding native function.
-///     ///
-///     /// This type needs to be passed to the wasm executor, so that the host functions will be
-///     /// registered in the executor.
-///     pub struct HostFunctions;
+/// 	/// This type implements the `HostFunctions` trait (from `sp-wasm-interface`) and
+/// 	/// provides the host implementation for the wasm side. The host implementation converts the
+/// 	/// arguments from wasm to native and calls the corresponding native function.
+/// 	///
+/// 	/// This type needs to be passed to the wasm executor, so that the host functions will be
+/// 	/// registered in the executor.
+/// 	pub struct HostFunctions;
 /// }
 /// ```
 ///
@@ -228,45 +234,45 @@ pub use sp_std;
 ///
 /// ```
 /// mod interface {
-///     mod extern_host_functions_impls {
-///         extern "C" {
-///             /// Every function is exported as `ext_TRAIT_NAME_FUNCTION_NAME_version_VERSION`.
-///             ///
-///             /// `TRAIT_NAME` is converted into snake case.
-///             ///
-///             /// The type for each argument of the exported function depends on
-///             /// `<ARGUMENT_TYPE as RIType>::FFIType`.
-///             ///
-///             /// `data` holds the pointer and the length to the `[u8]` slice.
-///             pub fn ext_Interface_call_version_1(data: u64) -> u64;
-///             /// `optional` holds the pointer and the length of the encoded value.
-///             pub fn ext_Interface_set_or_clear_version_1(optional: u64);
-///         }
-///     }
+/// 	mod extern_host_functions_impls {
+/// 		extern "C" {
+/// 			/// Every function is exported as `ext_TRAIT_NAME_FUNCTION_NAME_version_VERSION`.
+/// 			///
+/// 			/// `TRAIT_NAME` is converted into snake case.
+/// 			///
+/// 			/// The type for each argument of the exported function depends on
+/// 			/// `<ARGUMENT_TYPE as RIType>::FFIType`.
+/// 			///
+/// 			/// `data` holds the pointer and the length to the `[u8]` slice.
+/// 			pub fn ext_Interface_call_version_1(data: u64) -> u64;
+/// 			/// `optional` holds the pointer and the length of the encoded value.
+/// 			pub fn ext_Interface_set_or_clear_version_1(optional: u64);
+/// 		}
+/// 	}
 ///
-///     /// The type is actually `ExchangeableFunction` (from `sp-runtime-interface`).
-///     ///
-///     /// This can be used to replace the implementation of the `call` function.
-///     /// Instead of calling into the host, the callee will automatically call the other
-///     /// implementation.
-///     ///
-///     /// To replace the implementation:
-///     ///
-///     /// `host_call.replace_implementation(some_other_impl)`
-///     pub static host_call: () = ();
-///     pub static host_set_or_clear: () = ();
+/// 	/// The type is actually `ExchangeableFunction` (from `sp-runtime-interface`).
+/// 	///
+/// 	/// This can be used to replace the implementation of the `call` function.
+/// 	/// Instead of calling into the host, the callee will automatically call the other
+/// 	/// implementation.
+/// 	///
+/// 	/// To replace the implementation:
+/// 	///
+/// 	/// `host_call.replace_implementation(some_other_impl)`
+/// 	pub static host_call: () = ();
+/// 	pub static host_set_or_clear: () = ();
 ///
-///     pub fn call(data: &[u8]) -> Vec<u8> {
-///         // This is the actual call: `host_call.get()(data)`
-///         //
-///         // But that does not work for several reasons in this example, so we just return an
-///         // empty vector.
-///         Vec::new()
-///     }
+/// 	pub fn call(data: &[u8]) -> Vec<u8> {
+/// 		// This is the actual call: `host_call.get()(data)`
+/// 		//
+/// 		// But that does not work for several reasons in this example, so we just return an
+/// 		// empty vector.
+/// 		Vec::new()
+/// 	}
 ///
-///     pub fn set_or_clear(optional: Option<Vec<u8>>) {
-///         // Same as above
-///     }
+/// 	pub fn set_or_clear(optional: Option<Vec<u8>>) {
+/// 		// Same as above
+/// 	}
 /// }
 /// ```
 ///

@@ -237,32 +237,32 @@ impl<T> IsType<T> for T {
 /// # use frame_support::traits::IsSubType;
 ///
 /// enum Test {
-///     String(String),
-///     U32(u32),
+/// 	String(String),
+/// 	U32(u32),
 /// }
 ///
 /// impl IsSubType<String> for Test {
-///     fn is_sub_type(&self) -> Option<&String> {
-///         match self {
-///             Self::String(ref r) => Some(r),
-///             _ => None,
-///         }
-///     }
+/// 	fn is_sub_type(&self) -> Option<&String> {
+/// 		match self {
+/// 			Self::String(ref r) => Some(r),
+/// 			_ => None,
+/// 		}
+/// 	}
 /// }
 ///
 /// impl IsSubType<u32> for Test {
-///     fn is_sub_type(&self) -> Option<&u32> {
-///         match self {
-///             Self::U32(ref r) => Some(r),
-///             _ => None,
-///         }
-///     }
+/// 	fn is_sub_type(&self) -> Option<&u32> {
+/// 		match self {
+/// 			Self::U32(ref r) => Some(r),
+/// 			_ => None,
+/// 		}
+/// 	}
 /// }
 ///
 /// fn main() {
-///     let data = Test::String("test".into());
+/// 	let data = Test::String("test".into());
 ///
-///     assert_eq!("test", IsSubType::<String>::is_sub_type(&data).unwrap().as_str());
+/// 	assert_eq!("test", IsSubType::<String>::is_sub_type(&data).unwrap().as_str());
 /// }
 /// ```
 pub trait IsSubType<T> {

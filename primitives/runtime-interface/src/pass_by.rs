@@ -50,8 +50,8 @@ use sp_std::vec::Vec;
 /// # use codec::{Encode, Decode};
 /// #[derive(PassByCodec, Encode, Decode)]
 /// struct EncodableType {
-///     name: Vec<u8>,
-///     param: u32,
+/// 	name: Vec<u8>,
+/// 	param: u32,
 /// }
 /// ```
 pub use sp_runtime_interface_proc_macro::PassByCodec;
@@ -77,7 +77,7 @@ pub use sp_runtime_interface_proc_macro::PassByCodec;
 /// # use sp_runtime_interface::pass_by::PassByInner;
 /// #[derive(PassByInner)]
 /// struct Data {
-///     data: [u8; 32],
+/// 	data: [u8; 32],
 /// }
 /// ```
 pub use sp_runtime_interface_proc_macro::PassByInner;
@@ -96,10 +96,10 @@ pub use sp_runtime_interface_proc_macro::PassByInner;
 /// # use sp_runtime_interface::pass_by::PassByEnum;
 /// #[derive(PassByEnum, Copy, Clone)]
 /// enum Data {
-///     Okay,
-///     NotOkay,
-///     // This will not work with the derive.
-///     //Why(u32),
+/// 	Okay,
+/// 	NotOkay,
+/// 	/* This will not work with the derive.
+/// 	 *Why(u32), */
 /// }
 /// ```
 pub use sp_runtime_interface_proc_macro::PassByEnum;
@@ -211,7 +211,7 @@ impl<T: PassBy> FromFFIValue for T {
 /// struct Test;
 ///
 /// impl PassBy for Test {
-///     type PassBy = Codec<Self>;
+/// 	type PassBy = Codec<Self>;
 /// }
 /// ```
 pub struct Codec<T: codec::Codec>(PhantomData<T>);
@@ -300,21 +300,21 @@ pub trait PassByInner: Sized {
 /// struct Test([u8; 32]);
 ///
 /// impl PassBy for Test {
-///     type PassBy = Inner<Self, [u8; 32]>;
+/// 	type PassBy = Inner<Self, [u8; 32]>;
 /// }
 ///
 /// impl PassByInner for Test {
-///     type Inner = [u8; 32];
+/// 	type Inner = [u8; 32];
 ///
-///     fn into_inner(self) -> [u8; 32] {
-///         self.0
-///     }
-///     fn inner(&self) -> &[u8; 32] {
-///         &self.0
-///     }
-///     fn from_inner(inner: [u8; 32]) -> Self {
-///         Self(inner)
-///     }
+/// 	fn into_inner(self) -> [u8; 32] {
+/// 		self.0
+/// 	}
+/// 	fn inner(&self) -> &[u8; 32] {
+/// 		&self.0
+/// 	}
+/// 	fn from_inner(inner: [u8; 32]) -> Self {
+/// 		Self(inner)
+/// 	}
 /// }
 /// ```
 pub struct Inner<T: PassByInner<Inner = I>, I: RIType>(PhantomData<(T, I)>);
@@ -369,33 +369,33 @@ impl<T: PassByInner<Inner = I>, I: RIType> RIType for Inner<T, I> {
 /// # use sp_runtime_interface::pass_by::{PassBy, Enum};
 /// #[derive(Clone, Copy)]
 /// enum Test {
-///     Test1,
-///     Test2,
+/// 	Test1,
+/// 	Test2,
 /// }
 ///
 /// impl From<Test> for u8 {
-///     fn from(val: Test) -> u8 {
-///         match val {
-///             Test::Test1 => 0,
-///             Test::Test2 => 1,
-///         }
-///     }
+/// 	fn from(val: Test) -> u8 {
+/// 		match val {
+/// 			Test::Test1 => 0,
+/// 			Test::Test2 => 1,
+/// 		}
+/// 	}
 /// }
 ///
 /// impl std::convert::TryFrom<u8> for Test {
-///     type Error = ();
+/// 	type Error = ();
 ///
-///     fn try_from(val: u8) -> Result<Test, ()> {
-///         match val {
-///             0 => Ok(Test::Test1),
-///             1 => Ok(Test::Test2),
-///             _ => Err(()),
-///         }
-///     }
+/// 	fn try_from(val: u8) -> Result<Test, ()> {
+/// 		match val {
+/// 			0 => Ok(Test::Test1),
+/// 			1 => Ok(Test::Test2),
+/// 			_ => Err(()),
+/// 		}
+/// 	}
 /// }
 ///
 /// impl PassBy for Test {
-///     type PassBy = Enum<Self>;
+/// 	type PassBy = Enum<Self>;
 /// }
 /// ```
 pub struct Enum<T: Copy + Into<u8> + TryFrom<u8>>(PhantomData<T>);

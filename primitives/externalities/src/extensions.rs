@@ -51,8 +51,8 @@ pub trait Extension: Send + Any {
 /// ```
 /// # use sp_externalities::decl_extension;
 /// decl_extension! {
-///     /// Some test extension
-///     struct TestExt(String);
+/// 	/// Some test extension
+/// 	struct TestExt(String);
 /// }
 /// ```
 #[macro_export]

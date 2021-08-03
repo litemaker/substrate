@@ -427,10 +427,10 @@ pub enum Void {}
 ///
 /// ```
 /// sp_core::impl_maybe_marker! {
-///     /// A marker for a type that implements `Debug` when `feature = std`.
-///     trait MaybeDebug: std::fmt::Debug;
-///     /// A marker for a type that implements `Debug + Display` when `feature = std`.
-///     trait MaybeDebugDisplay: std::fmt::Debug, std::fmt::Display;
+/// 	/// A marker for a type that implements `Debug` when `feature = std`.
+/// 	trait MaybeDebug: std::fmt::Debug;
+/// 	/// A marker for a type that implements `Debug + Display` when `feature = std`.
+/// 	trait MaybeDebugDisplay: std::fmt::Debug, std::fmt::Display;
 /// }
 /// ```
 #[macro_export]

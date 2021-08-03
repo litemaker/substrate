@@ -148,9 +148,12 @@ impl WithdrawReasons {
 	/// # use frame_support::traits::WithdrawReasons;
 	/// # fn main() {
 	/// assert_eq!(
-	/// 	WithdrawReasons::FEE | WithdrawReasons::TRANSFER | WithdrawReasons::RESERVE | WithdrawReasons::TIP,
+	/// 	WithdrawReasons::FEE |
+	/// 		WithdrawReasons::TRANSFER |
+	/// 		WithdrawReasons::RESERVE |
+	/// 		WithdrawReasons::TIP,
 	/// 	WithdrawReasons::except(WithdrawReasons::TRANSACTION_PAYMENT),
-	/// 	);
+	/// );
 	/// # }
 	/// ```
 	pub fn except(one: WithdrawReasons) -> WithdrawReasons {

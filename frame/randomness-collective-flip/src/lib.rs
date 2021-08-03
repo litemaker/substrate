@@ -41,25 +41,26 @@
 //!
 //! #[frame_support::pallet]
 //! pub mod pallet {
-//!     use frame_support::pallet_prelude::*;
-//!     use frame_system::pallet_prelude::*;
-//!     use super::*;
+//! 	use super::*;
+//! 	use frame_support::pallet_prelude::*;
+//! 	use frame_system::pallet_prelude::*;
 //!
-//!     #[pallet::pallet]
-//!     #[pallet::generate_store(pub(super) trait Store)]
-//!     pub struct Pallet<T>(_);
+//! 	#[pallet::pallet]
+//! 	#[pallet::generate_store(pub(super) trait Store)]
+//! 	pub struct Pallet<T>(_);
 //!
-//!     #[pallet::config]
-//!     pub trait Config: frame_system::Config + pallet_randomness_collective_flip::Config {}
+//! 	#[pallet::config]
+//! 	pub trait Config: frame_system::Config + pallet_randomness_collective_flip::Config {}
 //!
-//!     #[pallet::call]
-//!     impl<T: Config> Pallet<T> {
-//!         #[pallet::weight(0)]
-//!         pub fn random_module_example(origin: OriginFor<T>) -> DispatchResult {
-//!             let _random_value = <pallet_randomness_collective_flip::Pallet<T>>::random(&b"my context"[..]);
-//!             Ok(())
-//!         }
-//!     }
+//! 	#[pallet::call]
+//! 	impl<T: Config> Pallet<T> {
+//! 		#[pallet::weight(0)]
+//! 		pub fn random_module_example(origin: OriginFor<T>) -> DispatchResult {
+//! 			let _random_value =
+//! 				<pallet_randomness_collective_flip::Pallet<T>>::random(&b"my context"[..]);
+//! 			Ok(())
+//! 		}
+//! 	}
 //! }
 //! # fn main() { }
 //! ```
