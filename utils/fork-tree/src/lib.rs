@@ -912,7 +912,7 @@ mod test {
 	) -> (ForkTree<&'a str, u64, ()>, impl Fn(&&str, &&str) -> Result<bool, TestError>) {
 		let mut tree = ForkTree::new();
 
-		// 
+		//
 		//     - B - C - D - E
 		//    /
 		//   /   - G

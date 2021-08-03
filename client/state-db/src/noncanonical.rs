@@ -874,7 +874,7 @@ mod tests {
 	fn complex_tree() {
 		let mut db = make_db(&[]);
 
-		// 
+		//
 		// - 1 - 1_1 - 1_1_1 \ 1_2 - 1_2_1 \ 1_2_2 \ 1_2_3
 		//
 		// - 2 - 2_1 - 2_1_1 \ 2_2
@@ -1028,7 +1028,7 @@ mod tests {
 	fn keeps_pinned() {
 		let mut db = make_db(&[]);
 
-		// 
+		//
 		// - 0 - 1_1 \ 1_2
 
 		let (h_1, c_1) = (H256::random(), make_changeset(&[1], &[]));
@@ -1054,7 +1054,7 @@ mod tests {
 	fn keeps_pinned_ref_count() {
 		let mut db = make_db(&[]);
 
-		// 
+		//
 		// - 0 - 1_1 \ 1_2 \ 1_3
 
 		// 1_1 and 1_2 both make the same change
@@ -1084,7 +1084,7 @@ mod tests {
 	fn pin_keeps_parent() {
 		let mut db = make_db(&[]);
 
-		// 
+		//
 		// - 0 - 1_1 - 2_1 \ 1_2
 
 		let (h_11, c_11) = (H256::random(), make_changeset(&[1], &[]));

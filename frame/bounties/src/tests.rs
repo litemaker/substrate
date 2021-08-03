@@ -774,7 +774,7 @@ fn cancel_and_refund() {
 
 		assert_ok!(Bounties::close_bounty(Origin::root(), 0));
 
-		assert_eq!(Treasury::pot(), 85); // 
+		assert_eq!(Treasury::pot(), 85); //
 		                         // - 25 + 10
 	});
 }
