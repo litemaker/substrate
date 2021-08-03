@@ -157,15 +157,15 @@
 //! pub trait Config: staking::Config {}
 //!
 //! decl_module! {
-//!     pub struct Module<T: Config> for enum Call where origin: T::Origin {
-//!         /// Reward a validator.
-//!         #[weight = 0]
-//!         pub fn reward_myself(origin) -> dispatch::DispatchResult {
-//!             let reported = ensure_signed(origin)?;
-//!             <staking::Pallet<T>>::reward_by_ids(vec![(reported, 10)]);
-//!             Ok(())
-//!         }
-//!     }
+//! 	pub struct Module<T: Config> for enum Call where origin: T::Origin {
+//! 		/// Reward a validator.
+//! 		#[weight = 0]
+//! 		pub fn reward_myself(origin) -> dispatch::DispatchResult {
+//! 			let reported = ensure_signed(origin)?;
+//! 			<staking::Pallet<T>>::reward_by_ids(vec![(reported, 10)]);
+//! 			Ok(())
+//! 		}
+//! 	}
 //! }
 //! # fn main() { }
 //! ```

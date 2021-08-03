@@ -38,26 +38,29 @@
 //! # use codec::{Decode, Encode, Codec};
 //! // in your off-chain worker code
 //! use sp_runtime::offchain::{
-//! 		storage::StorageValueRef,
-//! 		storage_lock::{StorageLock, Time},
+//! 	storage::StorageValueRef,
+//! 	storage_lock::{StorageLock, Time},
 //! };
 //!
-//! fn append_to_in_storage_vec<'a, T>(key: &'a [u8], _: T) where T: Codec {
-//!    // `access::lock` defines the storage entry which is used for
-//!    // persisting the lock in the underlying database.
-//!    // The entry name _must_ be unique and can be interpreted as a
-//!    // unique mutex instance reference tag.
-//!    let mut lock = StorageLock::<Time>::new(b"access::lock");
-//!    {
-//!         let _guard = lock.lock();
-//!         let acc = StorageValueRef::persistent(key);
-//!         let v: Vec<T> = acc.get::<Vec<T>>().unwrap().unwrap();
-//!         // modify `v` as desired
-//!         // i.e. perform some heavy computation with
-//!         // side effects that should only be done once.
-//!         acc.set(&v);
-//!         // drop `_guard` implicitly at end of scope
-//!    }
+//! fn append_to_in_storage_vec<'a, T>(key: &'a [u8], _: T)
+//! where
+//! 	T: Codec,
+//! {
+//! 	// `access::lock` defines the storage entry which is used for
+//! 	// persisting the lock in the underlying database.
+//! 	// The entry name _must_ be unique and can be interpreted as a
+//! 	// unique mutex instance reference tag.
+//! 	let mut lock = StorageLock::<Time>::new(b"access::lock");
+//! 	{
+//! 		let _guard = lock.lock();
+//! 		let acc = StorageValueRef::persistent(key);
+//! 		let v: Vec<T> = acc.get::<Vec<T>>().unwrap().unwrap();
+//! 		// modify `v` as desired
+//! 		// i.e. perform some heavy computation with
+//! 		// side effects that should only be done once.
+//! 		acc.set(&v);
+//! 		// drop `_guard` implicitly at end of scope
+//! 	}
 //! }
 //! ```
 

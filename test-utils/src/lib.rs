@@ -19,8 +19,8 @@
 
 #[doc(hidden)]
 pub use futures;
-/// Marks async function to be executed by an async runtime and provide a `TaskExecutor`, suitable
-/// to test environment.
+/// Marks async function to be executed by an async runtime and provide a `TaskExecutor`,
+/// suitable to test environment.
 ///
 /// # Requirements
 ///
@@ -31,9 +31,9 @@ pub use futures;
 /// ```
 /// #[substrate_test_utils::test]
 /// async fn basic_test(task_executor: TaskExecutor) {
-///     assert!(true);
-///     // create your node in here and use task_executor
-///     // then don't forget to gracefully shutdown your node before exit
+/// 	assert!(true);
+/// 	// create your node in here and use task_executor
+/// 	// then don't forget to gracefully shutdown your node before exit
 /// }
 /// ```
 pub use substrate_test_utils_derive::test;
@@ -48,7 +48,7 @@ pub use tokio;
 /// #[macro_use]
 /// # use substrate_test_utils::{assert_eq_uvec};
 /// # fn main() {
-/// assert_eq_uvec!(vec![1,2], vec![2,1]);
+/// assert_eq_uvec!(vec![1, 2], vec![2, 1]);
 /// # }
 /// ```
 ///

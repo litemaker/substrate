@@ -41,10 +41,10 @@
 //! ```
 //! # use frame_system::Config;
 //! frame_support::decl_module! {
-//!     pub struct Module<T: Config> for enum Call where origin: T::Origin {
-//!         #[weight = 1000]
-//!         fn dispatching(origin) { unimplemented!() }
-//!     }
+//! 	pub struct Module<T: Config> for enum Call where origin: T::Origin {
+//! 		#[weight = 1000]
+//! 		fn dispatching(origin) { unimplemented!() }
+//! 	}
 //! }
 //! # fn main() {}
 //! ```
@@ -55,10 +55,10 @@
 //! # use frame_system::Config;
 //! # use frame_support::weights::DispatchClass;
 //! frame_support::decl_module! {
-//!     pub struct Module<T: Config> for enum Call where origin: T::Origin {
-//!         #[weight = (1000, DispatchClass::Operational)]
-//!         fn dispatching(origin) { unimplemented!() }
-//!     }
+//! 	pub struct Module<T: Config> for enum Call where origin: T::Origin {
+//! 		#[weight = (1000, DispatchClass::Operational)]
+//! 		fn dispatching(origin) { unimplemented!() }
+//! 	}
 //! }
 //! # fn main() {}
 //! ```
@@ -69,10 +69,10 @@
 //! # use frame_system::Config;
 //! # use frame_support::weights::Pays;
 //! frame_support::decl_module! {
-//!     pub struct Module<T: Config> for enum Call where origin: T::Origin {
-//!         #[weight = (1000, Pays::No)]
-//!         fn dispatching(origin) { unimplemented!() }
-//!     }
+//! 	pub struct Module<T: Config> for enum Call where origin: T::Origin {
+//! 		#[weight = (1000, Pays::No)]
+//! 		fn dispatching(origin) { unimplemented!() }
+//! 	}
 //! }
 //! # fn main() {}
 //! ```
@@ -83,10 +83,10 @@
 //! # use frame_system::Config;
 //! # use frame_support::weights::{DispatchClass, Pays};
 //! frame_support::decl_module! {
-//!     pub struct Module<T: Config> for enum Call where origin: T::Origin {
-//!         #[weight = (1000, DispatchClass::Operational, Pays::No)]
-//!         fn dispatching(origin) { unimplemented!() }
-//!     }
+//! 	pub struct Module<T: Config> for enum Call where origin: T::Origin {
+//! 		#[weight = (1000, DispatchClass::Operational, Pays::No)]
+//! 		fn dispatching(origin) { unimplemented!() }
+//! 	}
 //! }
 //! # fn main() {}
 //! ```
@@ -104,8 +104,8 @@
 //! # use frame_system::Config;
 //! # use frame_support::weights::{DispatchClass, FunctionOf, Pays};
 //! frame_support::decl_module! {
-//!     pub struct Module<T: Config> for enum Call where origin: T::Origin {
-//!         #[weight = FunctionOf(
+//! 	pub struct Module<T: Config> for enum Call where origin: T::Origin {
+//! 		#[weight = FunctionOf(
 //! 			// weight, function.
 //! 			|args: (&u32, &u64)| *args.0 as u64 + args.1,
 //! 			// class, fixed.
@@ -113,8 +113,8 @@
 //! 			// pays fee, function.
 //! 			|args: (&u32, &u64)| if *args.0 > 1000 { Pays::Yes } else { Pays::No },
 //! 		)]
-//!         fn dispatching(origin, a: u32, b: u64) { unimplemented!() }
-//!     }
+//! 		fn dispatching(origin, a: u32, b: u64) { unimplemented!() }
+//! 	}
 //! }
 //! # fn main() {}
 //! ```
@@ -229,8 +229,9 @@ pub enum DispatchClass {
 	Operational,
 	/// A mandatory dispatch. These kinds of dispatch are always included regardless of their
 	/// weight, therefore it is critical that they are separately validated to ensure that a
-	/// malicious validator cannot craft a valid but impossibly heavy block. Usually this just means
-	/// ensuring that the extrinsic can only be included once and that it is always very light.
+	/// malicious validator cannot craft a valid but impossibly heavy block. Usually this just
+	/// means ensuring that the extrinsic can only be included once and that it is always very
+	/// light.
 	///
 	/// Do *NOT* use it for extrinsics that can be heavy.
 	///
@@ -522,12 +523,12 @@ impl<T> PaysFee<T> for (Weight, Pays) {
 /// A struct to represent a weight which is a function of the input arguments. The given items have
 /// the following types:
 ///
-/// - `WD`: a raw `Weight` value or a closure that returns a `Weight` with the same
+/// - `WD`: a raw `Weight` value or a closure that returns a `Weight` with the same argument list as
+///   the dispatched, wrapped in a tuple.
+/// - `CD`: a raw `DispatchClass` value or a closure that returns a `DispatchClass` with the same
 ///   argument list as the dispatched, wrapped in a tuple.
-/// - `CD`: a raw `DispatchClass` value or a closure that returns a `DispatchClass`
-///   with the same argument list as the dispatched, wrapped in a tuple.
-/// - `PF`: a `Pays` variant for whether this dispatch pays fee or not or a closure that
-///   returns a `Pays` variant with the same argument list as the dispatched, wrapped in a tuple.
+/// - `PF`: a `Pays` variant for whether this dispatch pays fee or not or a closure that returns a
+///   `Pays` variant with the same argument list as the dispatched, wrapped in a tuple.
 #[deprecated = "Function arguments are available directly inside the annotation now."]
 pub struct FunctionOf<WD, CD, PF>(pub WD, pub CD, pub PF);
 

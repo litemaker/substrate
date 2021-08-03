@@ -123,7 +123,8 @@ pub struct Configuration {
 	pub disable_grandpa: bool,
 	/// Development key seed.
 	///
-	/// When running in development mode, the seed will be used to generate authority keys by the keystore.
+	/// When running in development mode, the seed will be used to generate authority keys by the
+	/// keystore.
 	///
 	/// Should only be set when `node` is running development mode.
 	pub dev_key_seed: Option<String>,
@@ -335,9 +336,8 @@ pub(crate) type JoinFuture = Pin<Box<dyn Future<Output = ()> + Send>>;
 ///
 /// let runtime = Runtime::new().unwrap();
 /// let handle = runtime.handle().clone();
-/// let task_executor: TaskExecutor = (move |future, _task_type| {
-///     handle.spawn(future).map(|_| ())
-/// }).into();
+/// let task_executor: TaskExecutor =
+/// 	(move |future, _task_type| handle.spawn(future).map(|_| ())).into();
 /// ```
 ///
 /// ## Using async-std
@@ -345,9 +345,10 @@ pub(crate) type JoinFuture = Pin<Box<dyn Future<Output = ()> + Send>>;
 /// ```
 /// # use sc_service::TaskExecutor;
 /// let task_executor: TaskExecutor = (|future, _task_type| {
-///     // NOTE: async-std's JoinHandle is not a Result so we don't need to map the result
-///     async_std::task::spawn(future)
-/// }).into();
+/// 	// NOTE: async-std's JoinHandle is not a Result so we don't need to map the result
+/// 	async_std::task::spawn(future)
+/// })
+/// .into();
 /// ```
 #[derive(Clone)]
 pub struct TaskExecutor(Arc<dyn Fn(SomeFuture, TaskType) -> JoinFuture + Send + Sync>);

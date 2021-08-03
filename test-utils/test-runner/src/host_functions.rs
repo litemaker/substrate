@@ -23,11 +23,9 @@
 /// pub struct SignatureVerificationOverride;
 ///
 /// impl sp_wasm_interface::HostFunctions for SignatureVerificationOverride {
-///     fn host_functions() -> Vec<&'static dyn sp_wasm_interface::Function> {
-///         override_host_functions!(
-///             "ext_crypto_ecdsa_verify_version_1", EcdsaVerify,
-///         )
-///     }
+/// 	fn host_functions() -> Vec<&'static dyn sp_wasm_interface::Function> {
+/// 		override_host_functions!("ext_crypto_ecdsa_verify_version_1", EcdsaVerify,)
+/// 	}
 /// }
 /// ```
 #[macro_export]

@@ -523,7 +523,7 @@ macro_rules! app_crypto_signature_common {
 ///
 /// ```rust
 /// sp_application_crypto::wrap! {
-///     pub struct Wrapper(u32);
+/// 	pub struct Wrapper(u32);
 /// }
 /// ```
 #[macro_export]
@@ -573,7 +573,7 @@ macro_rules! wrap {
 ///
 /// ```
 /// sp_application_crypto::with_pair! {
-///     pub type Pair = ();
+/// 	pub type Pair = ();
 /// }
 /// ```
 #[macro_export]

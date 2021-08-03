@@ -47,13 +47,13 @@
 //! // the winners.
 //! let winners = vec![(1, 100), (2, 50)];
 //! let assignments = vec![
-//!     // A voter, giving equal backing to both 1 and 2.
-//!     Assignment {
+//! 	// A voter, giving equal backing to both 1 and 2.
+//! 	Assignment {
 //! 		who: 10,
 //! 		distribution: vec![(1, Perbill::from_percent(50)), (2, Perbill::from_percent(50))],
 //! 	},
-//!     // A voter, Only backing 1.
-//!     Assignment { who: 20, distribution: vec![(1, Perbill::from_percent(100))] },
+//! 	// A voter, Only backing 1.
+//! 	Assignment { who: 20, distribution: vec![(1, Perbill::from_percent(100))] },
 //! ];
 //!
 //! // the combination of the two makes the election result.

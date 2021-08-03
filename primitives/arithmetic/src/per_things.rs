@@ -275,10 +275,7 @@ pub trait PerThing:
 	/// # use sp_arithmetic::{Percent, PerThing};
 	/// # fn main () {
 	/// // 989/100 is technically closer to 99%.
-	/// assert_eq!(
-	/// 		Percent::from_rational(989u64, 1000),
-	/// 		Percent::from_parts(98),
-	/// 	);
+	/// assert_eq!(Percent::from_rational(989u64, 1000), Percent::from_parts(98),);
 	/// # }
 	/// ```
 	fn from_rational<N>(p: N, q: N) -> Self

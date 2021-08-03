@@ -141,9 +141,9 @@ macro_rules! whitelist {
 ///
 /// Test functions are automatically generated for each benchmark and are accessible to you when you
 /// run `cargo test`. All tests are named `test_benchmark_<benchmark_name>`, expect you to pass them
-/// the Runtime Config, and run them in a test externalities environment. The test function runs your
-/// benchmark just like a regular benchmark, but only testing at the lowest and highest values for
-/// each component. The function will return `Ok(())` if the benchmarks return no errors.
+/// the Runtime Config, and run them in a test externalities environment. The test function runs
+/// your benchmark just like a regular benchmark, but only testing at the lowest and highest values
+/// for each component. The function will return `Ok(())` if the benchmarks return no errors.
 ///
 /// You can optionally add a `verify` code block at the end of a benchmark to test any final state
 /// of your benchmark in a unit test. For example:
@@ -630,7 +630,7 @@ macro_rules! benchmark_backend {
 // Every variant must implement [`BenchmarkingSetup`].
 //
 // ```nocompile
-//
+// 
 // struct Transfer;
 // impl BenchmarkingSetup for Transfer { ... }
 //
@@ -1025,11 +1025,12 @@ macro_rules! impl_benchmark_test {
 /// );
 /// ```
 ///
-/// There is an optional fourth argument, with keyword syntax: `benchmarks_path = path_to_benchmarks_invocation`.
-/// In the typical case in which this macro is in the same module as the `benchmarks!` invocation,
-/// you don't need to supply this. However, if the `impl_benchmark_test_suite!` invocation is in a
-/// different module than the `benchmarks!` invocation, then you should provide the path to the
-/// module containing the `benchmarks!` invocation:
+/// There is an optional fourth argument, with keyword syntax: `benchmarks_path =
+/// path_to_benchmarks_invocation`. In the typical case in which this macro is in the same module as
+/// the `benchmarks!` invocation, you don't need to supply this. However, if the
+/// `impl_benchmark_test_suite!` invocation is in a different module than the `benchmarks!`
+/// invocation, then you should provide the path to the module containing the `benchmarks!`
+/// invocation:
 ///
 /// ```rust,ignore
 /// mod benches {
@@ -1058,7 +1059,8 @@ macro_rules! impl_benchmark_test {
 /// to these restrictions:
 ///
 /// - It must be the name of a method applied to the output of the `new_test_ext` argument.
-/// - That method must have a signature capable of receiving a single argument of the form `impl FnOnce()`.
+/// - That method must have a signature capable of receiving a single argument of the form `impl
+///   FnOnce()`.
 // ## Notes (not for rustdoc)
 //
 // The biggest challenge for this macro is communicating the actual test functions to be run. We
@@ -1258,8 +1260,8 @@ pub fn show_benchmark_debug_info(
 /// ```
 ///
 /// The `whitelist` is a parameter you pass to control the DB read/write tracking.
-/// We use a vector of [TrackedStorageKey](./struct.TrackedStorageKey.html), which is a simple struct used to set
-/// if a key has been read or written to.
+/// We use a vector of [TrackedStorageKey](./struct.TrackedStorageKey.html), which is a simple
+/// struct used to set if a key has been read or written to.
 ///
 /// For values that should be skipped entirely, we can just pass `key.into()`. For example:
 ///
@@ -1267,13 +1269,21 @@ pub fn show_benchmark_debug_info(
 /// use frame_benchmarking::TrackedStorageKey;
 /// let whitelist: Vec<TrackedStorageKey> = vec![
 /// 	// Block Number
-/// 	hex_literal::hex!("26aa394eea5630e07c48ae0c9558cef702a5c1b19ab7a04f536c519aca4983ac").to_vec().into(),
+/// 	hex_literal::hex!("26aa394eea5630e07c48ae0c9558cef702a5c1b19ab7a04f536c519aca4983ac")
+/// 		.to_vec()
+/// 		.into(),
 /// 	// Total Issuance
-/// 	hex_literal::hex!("c2261276cc9d1f8598ea4b6a74b15c2f57c875e4cff74148e4628f264b974c80").to_vec().into(),
+/// 	hex_literal::hex!("c2261276cc9d1f8598ea4b6a74b15c2f57c875e4cff74148e4628f264b974c80")
+/// 		.to_vec()
+/// 		.into(),
 /// 	// Execution Phase
-/// 	hex_literal::hex!("26aa394eea5630e07c48ae0c9558cef7ff553b5a9862a516939d82b3d3d8661a").to_vec().into(),
+/// 	hex_literal::hex!("26aa394eea5630e07c48ae0c9558cef7ff553b5a9862a516939d82b3d3d8661a")
+/// 		.to_vec()
+/// 		.into(),
 /// 	// Event Count
-/// 	hex_literal::hex!("26aa394eea5630e07c48ae0c9558cef70a98fdbe9ce6c55837576c60c7af3850").to_vec().into(),
+/// 	hex_literal::hex!("26aa394eea5630e07c48ae0c9558cef70a98fdbe9ce6c55837576c60c7af3850")
+/// 		.to_vec()
+/// 		.into(),
 /// ];
 /// ```
 ///

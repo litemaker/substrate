@@ -738,8 +738,8 @@ pub trait Extrinsic: Sized + MaybeMallocSizeOf {
 	///
 	/// Extrinsics can be split into:
 	/// 1. Inherents (no signature; created by validators during block production)
-	/// 2. Unsigned Transactions (no signature; represent "system calls" or other special kinds of calls)
-	/// 3. Signed Transactions (with signature; a regular transactions with known origin)
+	/// 2. Unsigned Transactions (no signature; represent "system calls" or other special kinds of
+	/// calls) 3. Signed Transactions (with signature; a regular transactions with known origin)
 	fn new(_call: Self::Call, _signed_data: Option<Self::SignaturePayload>) -> Option<Self> {
 		None
 	}
@@ -765,8 +765,8 @@ pub type DigestItemFor<B> = DigestItem<<<B as Block>::Header as Header>::Hash>;
 
 /// A "checkable" piece of information, used by the standard Substrate Executive in order to
 /// check the validity of a piece of extrinsic information, usually by verifying the signature.
-/// Implement for pieces of information that require some additional context `Context` in order to be
-/// checked.
+/// Implement for pieces of information that require some additional context `Context` in order to
+/// be checked.
 pub trait Checkable<Context>: Sized {
 	/// Returned if `check` succeeds.
 	type Checked;
@@ -1404,14 +1404,19 @@ macro_rules! impl_opaque_keys_inner {
 ///
 /// ```rust
 /// use sp_runtime::{
-/// 	impl_opaque_keys, KeyTypeId, BoundToRuntimeAppPublic, app_crypto::{sr25519, ed25519}
+/// 	app_crypto::{ed25519, sr25519},
+/// 	impl_opaque_keys, BoundToRuntimeAppPublic, KeyTypeId,
 /// };
 ///
 /// pub struct KeyModule;
-/// impl BoundToRuntimeAppPublic for KeyModule { type Public = ed25519::AppPublic; }
+/// impl BoundToRuntimeAppPublic for KeyModule {
+/// 	type Public = ed25519::AppPublic;
+/// }
 ///
 /// pub struct KeyModule2;
-/// impl BoundToRuntimeAppPublic for KeyModule2 { type Public = sr25519::AppPublic; }
+/// impl BoundToRuntimeAppPublic for KeyModule2 {
+/// 	type Public = sr25519::AppPublic;
+/// }
 ///
 /// impl_opaque_keys! {
 /// 	pub struct Keys {

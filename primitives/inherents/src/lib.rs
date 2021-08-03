@@ -21,8 +21,8 @@
 //! runtime implementation to require an inherent for each block or to make it optional. Inherents
 //! are mainly used to pass data from the block producer to the runtime. So, inherents require some
 //! part that is running on the client side and some part that is running on the runtime side. Any
-//! data that is required by an inherent is passed as [`InherentData`] from the client to the runtime
-//! when the inherents are constructed.
+//! data that is required by an inherent is passed as [`InherentData`] from the client to the
+//! runtime when the inherents are constructed.
 //!
 //! The process of constructing and applying inherents is the following:
 //!
@@ -46,7 +46,7 @@
 //!
 //! ```
 //! use codec::Decode;
-//! use sp_inherents::{InherentIdentifier, InherentData};
+//! use sp_inherents::{InherentData, InherentIdentifier};
 //!
 //! // This needs to be unique for the runtime.
 //! const INHERENT_IDENTIFIER: InherentIdentifier = *b"testinh0";
@@ -81,14 +81,12 @@
 //! 	) -> Option<Result<(), sp_inherents::Error>> {
 //! 		// Check if this error belongs to us.
 //! 		if *identifier != INHERENT_IDENTIFIER {
-//! 			return None;
+//! 			return None
 //! 		}
 //!
 //! 		// For demonstration purposes we are using a `String` as error type. In real
 //! 		// implementations it is advised to not use `String`.
-//! 		Some(Err(
-//! 			sp_inherents::Error::Application(Box::from(String::decode(&mut error).ok()?))
-//! 		))
+//! 		Some(Err(sp_inherents::Error::Application(Box::from(String::decode(&mut error).ok()?))))
 //! 	}
 //! }
 //! ```

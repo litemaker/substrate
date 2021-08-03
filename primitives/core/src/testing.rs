@@ -41,13 +41,13 @@ pub const ECDSA: KeyTypeId = KeyTypeId(*b"ecds");
 /// # use sp_core::wasm_export_functions;
 ///
 /// wasm_export_functions! {
-///     fn test_in_wasm(value: bool, another_value: Vec<u8>) -> bool {
-///         value && another_value.is_empty()
-///     }
+/// 	fn test_in_wasm(value: bool, another_value: Vec<u8>) -> bool {
+/// 		value && another_value.is_empty()
+/// 	}
 ///
-///     fn without_return_value() {
-///         // do something
-///     }
+/// 	fn without_return_value() {
+/// 		// do something
+/// 	}
 /// }
 /// ```
 #[macro_export]

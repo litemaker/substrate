@@ -60,9 +60,10 @@
 //! `${TRAIT_NAME}_${FUNCTION_NAME}`. Such a function has the following signature
 //! `(ptr: *u8, length: u32) -> u64`. It takes a pointer to an `u8` array and its length as an
 //! argument. This `u8` array is expected to be the SCALE encoded parameters of the function as
-//! defined in the trait. The return value is an `u64` that represents `length << 32 | pointer` of an
-//! `u8` array. This return value `u8` array contains the SCALE encoded return value as defined by
-//! the trait function. The macros take care to encode the parameters and to decode the return value.
+//! defined in the trait. The return value is an `u64` that represents `length << 32 | pointer` of
+//! an `u8` array. This return value `u8` array contains the SCALE encoded return value as defined
+//! by the trait function. The macros take care to encode the parameters and to decode the return
+//! value.
 
 #![cfg_attr(not(feature = "std"), no_std)]
 
@@ -116,8 +117,9 @@ pub const MAX_EXTRINSIC_DEPTH: u32 = 256;
 /// on the runtime side. The declaration for the runtime side is hidden in its own module.
 /// The client side declaration gets two extra parameters per function,
 /// `&self` and `at: &BlockId<Block>`. The runtime side declaration will match the given trait
-/// declaration. Besides one exception, the macro adds an extra generic parameter `Block: BlockT`
-/// to the client side and the runtime side. This generic parameter is usable by the user.
+/// declaration. Besides one exception, the macro adds an extra generic parameter `Block:
+/// BlockT` to the client side and the runtime side. This generic parameter is usable by the
+/// user.
 ///
 /// For implementing these macros you should use the
 /// [`impl_runtime_apis!`] macro.
@@ -126,21 +128,21 @@ pub const MAX_EXTRINSIC_DEPTH: u32 = 256;
 ///
 /// ```rust
 /// sp_api::decl_runtime_apis! {
-///     /// Declare the api trait.
-///     pub trait Balance {
-///         /// Get the balance.
-///         fn get_balance() -> u64;
-///         /// Set the balance.
-///         fn set_balance(val: u64);
-///     }
+/// 	/// Declare the api trait.
+/// 	pub trait Balance {
+/// 		/// Get the balance.
+/// 		fn get_balance() -> u64;
+/// 		/// Set the balance.
+/// 		fn set_balance(val: u64);
+/// 	}
 ///
-///     /// You can declare multiple api traits in one macro call.
-///     /// In one module you can call the macro at maximum one time.
-///     pub trait BlockBuilder {
-///         /// The macro adds an explicit `Block: BlockT` generic parameter for you.
-///         /// You can use this generic parameter as you would defined it manually.
-///         fn build_block() -> Block;
-///     }
+/// 	/// You can declare multiple api traits in one macro call.
+/// 	/// In one module you can call the macro at maximum one time.
+/// 	pub trait BlockBuilder {
+/// 		/// The macro adds an explicit `Block: BlockT` generic parameter for you.
+/// 		/// You can use this generic parameter as you would defined it manually.
+/// 		fn build_block() -> Block;
+/// 	}
 /// }
 ///
 /// # fn main() {}
@@ -149,54 +151,55 @@ pub const MAX_EXTRINSIC_DEPTH: u32 = 256;
 /// # Runtime api trait versioning
 ///
 /// To support versioning of the traits, the macro supports the attribute `#[api_version(1)]`.
-/// The attribute supports any `u32` as version. By default, each trait is at version `1`, if no
-/// version is provided. We also support changing the signature of a method. This signature
-/// change is highlighted with the `#[changed_in(2)]` attribute above a method. A method that is
-/// tagged with this attribute is callable by the name `METHOD_before_version_VERSION`. This
-/// method will only support calling into wasm, trying to call into native will fail (change the
-/// spec version!). Such a method also does not need to be implemented in the runtime. It is
-/// required that there exist the "default" of the method without the `#[changed_in(_)]` attribute,
-/// this method will be used to call the current default implementation.
+/// The attribute supports any `u32` as version. By default, each trait is at version `1`, if
+/// no version is provided. We also support changing the signature of a method. This signature
+/// change is highlighted with the `#[changed_in(2)]` attribute above a method. A method that
+/// is tagged with this attribute is callable by the name `METHOD_before_version_VERSION`. This
+/// method will only support calling into wasm, trying to call into native will fail (change
+/// the spec version!). Such a method also does not need to be implemented in the runtime. It
+/// is required that there exist the "default" of the method without the `#[changed_in(_)]`
+/// attribute, this method will be used to call the current default implementation.
 ///
 /// ```rust
 /// sp_api::decl_runtime_apis! {
-///     /// Declare the api trait.
-///     #[api_version(2)]
-///     pub trait Balance {
-///         /// Get the balance.
-///         fn get_balance() -> u64;
-///         /// Set balance.
-///         fn set_balance(val: u64);
-///         /// Set balance, old version.
-///         ///
-///         /// Is callable by `set_balance_before_version_2`.
-///         #[changed_in(2)]
-///         fn set_balance(val: u16);
-///         /// In version 2, we added this new function.
-///         fn increase_balance(val: u64);
-///     }
+/// 	/// Declare the api trait.
+/// 	#[api_version(2)]
+/// 	pub trait Balance {
+/// 		/// Get the balance.
+/// 		fn get_balance() -> u64;
+/// 		/// Set balance.
+/// 		fn set_balance(val: u64);
+/// 		/// Set balance, old version.
+/// 		///
+/// 		/// Is callable by `set_balance_before_version_2`.
+/// 		#[changed_in(2)]
+/// 		fn set_balance(val: u16);
+/// 		/// In version 2, we added this new function.
+/// 		fn increase_balance(val: u64);
+/// 	}
 /// }
 ///
 /// # fn main() {}
 /// ```
 ///
 /// To check if a given runtime implements a runtime api trait, the `RuntimeVersion` has the
-/// function `has_api<A>()`. Also the `ApiExt` provides a function `has_api<A>(at: &BlockId)` to
-/// check if the runtime at the given block id implements the requested runtime api trait.
+/// function `has_api<A>()`. Also the `ApiExt` provides a function `has_api<A>(at: &BlockId)`
+/// to check if the runtime at the given block id implements the requested runtime api trait.
 pub use sp_api_proc_macro::decl_runtime_apis;
 
 /// Tags given trait implementations as runtime apis.
 ///
 /// All traits given to this macro, need to be declared with the
 /// [`decl_runtime_apis!`](macro.decl_runtime_apis.html) macro. The implementation of the trait
-/// should follow the declaration given to the [`decl_runtime_apis!`](macro.decl_runtime_apis.html)
-/// macro, besides the `Block` type that is required as first generic parameter for each runtime
-/// api trait. When implementing a runtime api trait, it is required that the trait is referenced
-/// by a path, e.g. `impl my_trait::MyTrait for Runtime`. The macro will use this path to access
-/// the declaration of the trait for the runtime side.
+/// should follow the declaration given to the
+/// [`decl_runtime_apis!`](macro.decl_runtime_apis.html) macro, besides the `Block` type that
+/// is required as first generic parameter for each runtime api trait. When implementing a
+/// runtime api trait, it is required that the trait is referenced by a path, e.g. `impl
+/// my_trait::MyTrait for Runtime`. The macro will use this path to access the declaration of
+/// the trait for the runtime side.
 ///
-/// The macro also generates the api implementations for the client side and provides it through
-/// the `RuntimeApi` type. The `RuntimeApi` is hidden behind a `feature` called `std`.
+/// The macro also generates the api implementations for the client side and provides it
+/// through the `RuntimeApi` type. The `RuntimeApi` is hidden behind a `feature` called `std`.
 ///
 /// To expose version information about all implemented api traits, the constant
 /// `RUNTIME_API_VERSIONS` is generated. This constant should be used to instantiate the `apis`
@@ -240,32 +243,32 @@ pub use sp_api_proc_macro::decl_runtime_apis;
 /// #       fn initialize_block(_header: &<Block as BlockT>::Header) {}
 /// #   }
 ///
-///     impl self::Balance<Block> for Runtime {
-///         fn get_balance() -> u64 {
-///             1
-///         }
-///         fn set_balance(_bal: u64) {
-///             // Store the balance
-///         }
-///     }
+/// 	impl self::Balance<Block> for Runtime {
+/// 		fn get_balance() -> u64 {
+/// 			1
+/// 		}
+/// 		fn set_balance(_bal: u64) {
+/// 			// Store the balance
+/// 		}
+/// 	}
 ///
-///     impl self::BlockBuilder<Block> for Runtime {
-///         fn build_block() -> Block {
-///              unimplemented!("Please implement me!")
-///         }
-///     }
+/// 	impl self::BlockBuilder<Block> for Runtime {
+/// 		fn build_block() -> Block {
+/// 			 unimplemented!("Please implement me!")
+/// 		}
+/// 	}
 /// }
 ///
 /// /// Runtime version. This needs to be declared for each runtime.
 /// pub const VERSION: sp_version::RuntimeVersion = sp_version::RuntimeVersion {
-///     spec_name: create_runtime_str!("node"),
-///     impl_name: create_runtime_str!("test-node"),
-///     authoring_version: 1,
-///     spec_version: 1,
-///     impl_version: 0,
-///     // Here we are exposing the runtime api versions.
-///     apis: RUNTIME_API_VERSIONS,
-///     transaction_version: 1,
+/// 	spec_name: create_runtime_str!("node"),
+/// 	impl_name: create_runtime_str!("test-node"),
+/// 	authoring_version: 1,
+/// 	spec_version: 1,
+/// 	impl_version: 0,
+/// 	// Here we are exposing the runtime api versions.
+/// 	apis: RUNTIME_API_VERSIONS,
+/// 	transaction_version: 1,
 /// };
 ///
 /// # fn main() {}
@@ -275,13 +278,13 @@ pub use sp_api_proc_macro::impl_runtime_apis;
 /// Mocks given trait implementations as runtime apis.
 ///
 /// Accepts similar syntax as [`impl_runtime_apis!`] and generates
-/// simplified mock implementations of the given runtime apis. The difference in syntax is that the
-/// trait does not need to be referenced by a qualified path, methods accept the `&self` parameter
-/// and the error type can be specified as associated type. If no error type is specified [`String`]
-/// is used as error type.
+/// simplified mock implementations of the given runtime apis. The difference in syntax is that
+/// the trait does not need to be referenced by a qualified path, methods accept the `&self`
+/// parameter and the error type can be specified as associated type. If no error type is
+/// specified [`String`] is used as error type.
 ///
-/// Besides implementing the given traits, the [`Core`](sp_api::Core) and [`ApiExt`](sp_api::ApiExt)
-/// are implemented automatically.
+/// Besides implementing the given traits, the [`Core`](sp_api::Core) and
+/// [`ApiExt`](sp_api::ApiExt) are implemented automatically.
 ///
 /// # Example
 ///
@@ -302,26 +305,26 @@ pub use sp_api_proc_macro::impl_runtime_apis;
 /// #     }
 /// # }
 /// struct MockApi {
-///     balance: u64,
+/// 	balance: u64,
 /// }
 ///
 /// /// All runtime api mock implementations need to be done in one call of the macro!
 /// sp_api::mock_impl_runtime_apis! {
-///     impl Balance<Block> for MockApi {
-///         /// Here we take the `&self` to access the instance.
-///         fn get_balance(&self) -> u64 {
-///             self.balance
-///         }
-///         fn set_balance(_bal: u64) {
-///             // Store the balance
-///         }
-///     }
+/// 	impl Balance<Block> for MockApi {
+/// 		/// Here we take the `&self` to access the instance.
+/// 		fn get_balance(&self) -> u64 {
+/// 			self.balance
+/// 		}
+/// 		fn set_balance(_bal: u64) {
+/// 			// Store the balance
+/// 		}
+/// 	}
 ///
-///     impl BlockBuilder<Block> for MockApi {
-///         fn build_block() -> Block {
-///              unimplemented!("Not Required in tests")
-///         }
-///     }
+/// 	impl BlockBuilder<Block> for MockApi {
+/// 		fn build_block() -> Block {
+/// 			 unimplemented!("Not Required in tests")
+/// 		}
+/// 	}
 /// }
 ///
 /// # fn main() {}
@@ -329,14 +332,15 @@ pub use sp_api_proc_macro::impl_runtime_apis;
 ///
 /// # `advanced` attribute
 ///
-/// This attribute can be placed above individual function in the mock implementation to request
-/// more control over the function declaration. From the client side each runtime api function is
-/// called with the `at` parameter that is a [`BlockId`](sp_api::BlockId). When using the `advanced`
-/// attribute, the macro expects that the first parameter of the function is this `at` parameter.
-/// Besides that the macro also doesn't do the automatic return value rewrite, which means that full
-/// return value must be specified. The full return value is constructed like
-/// [`Result`]`<`[`NativeOrEncoded`](sp_api::NativeOrEncoded)`<ReturnValue>, Error>` while
-/// `ReturnValue` being the return value that is specified in the trait declaration.
+/// This attribute can be placed above individual function in the mock implementation to
+/// request more control over the function declaration. From the client side each runtime api
+/// function is called with the `at` parameter that is a [`BlockId`](sp_api::BlockId). When
+/// using the `advanced` attribute, the macro expects that the first parameter of the function
+/// is this `at` parameter. Besides that the macro also doesn't do the automatic return value
+/// rewrite, which means that full return value must be specified. The full return value is
+/// constructed like [`Result`]`<`[`NativeOrEncoded`](sp_api::NativeOrEncoded)`<ReturnValue>,
+/// Error>` while `ReturnValue` being the return value that is specified in the trait
+/// declaration.
 ///
 /// ## Example
 /// ```rust
@@ -355,26 +359,26 @@ pub use sp_api_proc_macro::impl_runtime_apis;
 /// #     }
 /// # }
 /// struct MockApi {
-///     balance: u64,
+/// 	balance: u64,
 /// }
 ///
 /// sp_api::mock_impl_runtime_apis! {
-///     impl Balance<Block> for MockApi {
-///         #[advanced]
-///         fn get_balance(&self, at: &BlockId<Block>) -> Result<NativeOrEncoded<u64>, sp_api::ApiError> {
-///             println!("Being called at: {}", at);
+/// 	impl Balance<Block> for MockApi {
+/// 		#[advanced]
+/// 		fn get_balance(&self, at: &BlockId<Block>) -> Result<NativeOrEncoded<u64>, sp_api::ApiError> {
+/// 			println!("Being called at: {}", at);
 ///
-///             Ok(self.balance.into())
-///         }
-///         #[advanced]
-///         fn set_balance(at: &BlockId<Block>, val: u64) -> Result<NativeOrEncoded<()>, sp_api::ApiError> {
-///             if let BlockId::Number(1) = at {
-///                 println!("Being called to set balance to: {}", val);
-///             }
+/// 			Ok(self.balance.into())
+/// 		}
+/// 		#[advanced]
+/// 		fn set_balance(at: &BlockId<Block>, val: u64) -> Result<NativeOrEncoded<()>, sp_api::ApiError> {
+/// 			if let BlockId::Number(1) = at {
+/// 				println!("Being called to set balance to: {}", val);
+/// 			}
 ///
-///             Ok(().into())
-///         }
-///     }
+/// 			Ok(().into())
+/// 		}
+/// 	}
 /// }
 ///
 /// # fn main() {}
