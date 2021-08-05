@@ -99,7 +99,7 @@ pub struct InstanceWrapper {
 	// The memory instance of the `instance`.
 	//
 	// It is important to make sure that we don't make any copies of this to make it easier to
-	// proof See `memory_as_slice` and `memory_as_slice_mut`.
+	// proof. See `memory_as_slice` and `memory_as_slice_mut`.
 	memory: Memory,
 	table: Option<Table>,
 	// Make this struct explicitly !Send & !Sync.

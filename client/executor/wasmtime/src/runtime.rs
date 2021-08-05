@@ -100,8 +100,8 @@ impl WasmModule for WasmtimeRuntime {
 		// and results.
 		//
 		// NOTE: Attentive reader may notice that this could've been moved in `WasmModule` creation.
-		//       However, I am not sure if that's a good idea since it would be pushing our luck
-		// further       by assuming that `Store` not only `Send` but also `Sync`.
+		// However, I am not sure if that's a good idea since it would be pushing our luck further
+		// by assuming that `Store` not only `Send` but also `Sync`.
 		let imports = resolve_imports(
 			&store,
 			&self.module,

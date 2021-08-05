@@ -98,8 +98,8 @@ pub use sp_runtime_interface_proc_macro::PassByInner;
 /// enum Data {
 /// 	Okay,
 /// 	NotOkay,
-/// 	/* This will not work with the derive.
-/// 	 *Why(u32), */
+/// 	//This will not work with the derive.
+/// 	 Why(u32),
 /// }
 /// ```
 pub use sp_runtime_interface_proc_macro::PassByEnum;

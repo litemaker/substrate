@@ -198,7 +198,7 @@ impl WasmExecutor {
 	/// parameters this `WasmExecutor` was initialized with.
 	///
 	/// In case of problems with during creation of the runtime or instantation, a `Err` is
-	/// returned. that describes the message.
+	/// returned that describes the message.
 	#[doc(hidden)] // We use this function for tests across multiple crates.
 	pub fn uncached_call(
 		&self,

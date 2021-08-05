@@ -109,9 +109,11 @@ struct ChangesTriesMeta<Block: BlockT> {
 	/// Oldest unpruned max-level (or skewed) digest trie blocks range.
 	/// The range is inclusive from both sides.
 	/// Is None only if:
-	/// 1) we haven't yet finalized any blocks (except genesis)
-	/// 2) if best_finalized_block - min_blocks_to_keep points to the range where changes tries are
-	/// disabled 3) changes tries pruning is disabled
+	///
+	/// * we haven't yet finalized any blocks (except genesis).
+	/// * if best_finalized_block - min_blocks_to_keep points to the range where changes tries are
+	/// disabled.
+	/// * changes tries pruning is disabled.
 	pub oldest_digest_range: Option<(NumberFor<Block>, NumberFor<Block>)>,
 	/// End block (inclusive) of oldest pruned max-level (or skewed) digest trie blocks range.
 	/// It is guaranteed that we have no any changes tries before (and including) this block.

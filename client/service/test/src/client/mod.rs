@@ -1817,17 +1817,23 @@ fn imports_blocks_with_changes_tries_config_change() {
 		.build();
 
 	// ===================================================================
+	//
 	// blocks 1,2,3,4,5,6,7,8,9,10 are empty
 	// block 11 changes the key
 	// block 12 is the L1 digest that covers this change
 	// blocks 13,14,15,16,17,18,19,20,21,22 are empty
 	// block 23 changes the configuration to 5^1 AND is skewed digest
+	//
 	// ===================================================================
+	//
 	// blocks 24,25 are changing the key
 	// block 26 is empty
 	// block 27 changes the key
 	// block 28 is the L1 digest (NOT SKEWED!!!) that covers changes AND changes configuration to
-	// 3^1 ===================================================================
+	// 3^1
+	//
+	// ===================================================================
+	//
 	// block 29 is empty
 	// block 30 changes the key
 	// block 31 is L1 digest that covers this change

@@ -912,14 +912,15 @@ mod test {
 	) -> (ForkTree<&'a str, u64, ()>, impl Fn(&&str, &&str) -> Result<bool, TestError>) {
 		let mut tree = ForkTree::new();
 
-		//
+		#[rustfmt::skip]
 		//     - B - C - D - E
 		//    /
 		//   /   - G
 		//  /   /
 		// A - F - H - I
 		//          \
-		//           - L - M \
+		//           - L - M
+		//              \
 		//               - O
 		//  \
 		//   — J - K

@@ -3396,8 +3396,8 @@ pub(crate) mod tests {
 		let block5 = insert_header(&backend, 5, block4, None, Default::default());
 		assert_eq!(backend.blockchain().info().best_hash, block5);
 
-		// Insert 1 as best again. This should fail because canonicalization_delay == 3 and best ==
-		// 5
+		// Insert 1 as best again. This should fail because
+		// `canonicalization_delay == 3 and best == 5`
 		let header = Header {
 			number: 1,
 			parent_hash: block0,
