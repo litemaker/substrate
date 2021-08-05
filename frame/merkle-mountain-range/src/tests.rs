@@ -304,6 +304,45 @@ fn verification_should_be_stateless() {
 }
 
 #[test]
+fn verify_real_beefy_mmr_proof() {
+	/*
+		test this:
+
+		mmrLeafOpaqueEncoded=0xc5010063000000d2657f7e0327d4a715d7848b8083de2c37e50f8c3797709f9da8a963b4de182a010000000000000002000000697ea2a8fe5b03468548a7a413424a6292ab44a82a6f5cc594c3fa7dda7ce402a35e7eedcf3097c9ca41785be850e6c67d94ac6379b9acc1449d0784a47011f5
+
+		hashedOpaqueLeaf=0xbb3726f1cd600a1e1aa273990ce3adfd326298c1c6bc4ba5059c35fb32116ea2
+
+		hashedLeaf=0x065191546a9ea776f9970c4007675b2f2a0543a067535981a92fe5ea749e8572
+
+		_beefyMMRLeafIndex: 99
+
+		_beefyLeafCount: 105
+
+		beefyMMRProof :[\"0x5547c8f3d63ba09401a8830aa6adefbc6ac5598687108e74729e01ab228a59be\",\"0x1735814e29795e86a7daa647f7d3bbe922cd71d6f7b67accfd529b1a12a24c9e\",\"0x2e745fa293eb5136a89bd64df57ec66b41ee7b9bdc83accfec7243a58265f8c3\",\"0xaa2d1872fb2ca86cd6450b9c335ced9aadded7e323c38b3a76b4ade946590b2c\",\"0x92a73b500b479595da060e4543f83c2becbcf7f685f449299a60162f54a8ac5a\",\"0x173d96b6a2a46e255cc793f1c346f98faf2fd036d8e959ba5bb454f64eedc19b\"]
+
+		mmrRootHash=0xb0e22d5808dfcbf277c71904b199a7d93c710c15e86b5f5882f8b11b8fe02858
+	*/
+
+	// Verify proof without relying on any on-chain data.
+	let leaf = hex("065191546a9ea776f9970c4007675b2f2a0543a067535981a92fe5ea749e8572");
+	let leaf = crate::primitives::DataOrHash::Hash::<<Test as Config>::Hashing, H256>(leaf);
+	let proof = Proof {
+		leaf_index: 99,
+		leaf_count: 105,
+		items: vec![
+			hex("5547c8f3d63ba09401a8830aa6adefbc6ac5598687108e74729e01ab228a59be"),
+			hex("1735814e29795e86a7daa647f7d3bbe922cd71d6f7b67accfd529b1a12a24c9e"),
+			hex("2e745fa293eb5136a89bd64df57ec66b41ee7b9bdc83accfec7243a58265f8c3"),
+			hex("aa2d1872fb2ca86cd6450b9c335ced9aadded7e323c38b3a76b4ade946590b2c"),
+			hex("92a73b500b479595da060e4543f83c2becbcf7f685f449299a60162f54a8ac5a"),
+			hex("173d96b6a2a46e255cc793f1c346f98faf2fd036d8e959ba5bb454f64eedc19b"),
+		],
+	};
+	let root = hex("b0e22d5808dfcbf277c71904b199a7d93c710c15e86b5f5882f8b11b8fe02858");
+	assert_eq!(crate::verify_leaf_proof::<<Test as Config>::Hashing, _>(root, leaf, proof), Ok(()));
+}
+
+#[test]
 fn should_verify_on_the_next_block_since_there_is_no_pruning_yet() {
 	let _ = env_logger::try_init();
 	let mut ext = new_test_ext();
